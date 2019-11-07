@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ItemRandomizer", "ItemRandomizer\ItemRandomizer.fsproj", "{90BB5AC1-B031-4203-A72A-1CE5BC93A8C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashRandomizerApp", "DashRandomizerApp\DashRandomizerApp.csproj", "{818AD875-5ED9-42A7-AC41-51B9487FEB28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90BB5AC1-B031-4203-A72A-1CE5BC93A8C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90BB5AC1-B031-4203-A72A-1CE5BC93A8C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90BB5AC1-B031-4203-A72A-1CE5BC93A8C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90BB5AC1-B031-4203-A72A-1CE5BC93A8C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{818AD875-5ED9-42A7-AC41-51B9487FEB28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{818AD875-5ED9-42A7-AC41-51B9487FEB28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{818AD875-5ED9-42A7-AC41-51B9487FEB28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{818AD875-5ED9-42A7-AC41-51B9487FEB28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A1839A6-332C-4926-8829-2E436491F54A}
+	EndGlobalSection
+EndGlobal
