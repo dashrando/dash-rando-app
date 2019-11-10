@@ -41,10 +41,10 @@
          this.textBoxBrowse = new System.Windows.Forms.TextBox();
          this.comboBoxDifficulty = new System.Windows.Forms.ComboBox();
          this.label1 = new System.Windows.Forms.Label();
-         this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+         this.numericUpDownSeed = new System.Windows.Forms.NumericUpDown();
          this.radioButtonRandom = new System.Windows.Forms.RadioButton();
          this.radioButtonManual = new System.Windows.Forms.RadioButton();
-         ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).BeginInit();
          this.SuspendLayout();
          // 
          // btnRandomize
@@ -168,26 +168,26 @@
          this.label1.TabIndex = 13;
          this.label1.Text = "Randomization:";
          // 
-         // numericUpDown1
+         // numericUpDownSeed
          // 
-         this.numericUpDown1.Enabled = false;
-         this.numericUpDown1.Font = new System.Drawing.Font("Calibri", 12F);
-         this.numericUpDown1.Location = new System.Drawing.Point(427, 92);
-         this.numericUpDown1.Maximum = new decimal(new int[] {
+         this.numericUpDownSeed.Enabled = false;
+         this.numericUpDownSeed.Font = new System.Drawing.Font("Calibri", 12F);
+         this.numericUpDownSeed.Location = new System.Drawing.Point(427, 92);
+         this.numericUpDownSeed.Maximum = new decimal(new int[] {
             9999999,
             0,
             0,
             0});
-         this.numericUpDown1.Minimum = new decimal(new int[] {
+         this.numericUpDownSeed.Minimum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-         this.numericUpDown1.Name = "numericUpDown1";
-         this.numericUpDown1.Size = new System.Drawing.Size(120, 27);
-         this.numericUpDown1.TabIndex = 2;
-         this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-         this.numericUpDown1.Value = new decimal(new int[] {
+         this.numericUpDownSeed.Name = "numericUpDownSeed";
+         this.numericUpDownSeed.Size = new System.Drawing.Size(120, 27);
+         this.numericUpDownSeed.TabIndex = 2;
+         this.numericUpDownSeed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+         this.numericUpDownSeed.Value = new decimal(new int[] {
             1000000,
             0,
             0,
@@ -225,7 +225,7 @@
          this.ClientSize = new System.Drawing.Size(714, 169);
          this.Controls.Add(this.radioButtonManual);
          this.Controls.Add(this.radioButtonRandom);
-         this.Controls.Add(this.numericUpDown1);
+         this.Controls.Add(this.numericUpDownSeed);
          this.Controls.Add(this.comboBoxDifficulty);
          this.Controls.Add(this.label1);
          this.Controls.Add(this.textBoxBrowse);
@@ -247,7 +247,7 @@
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
          this.Text = "Super Metroid DASH Randomizer! [v6.0]";
-         ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -267,7 +267,7 @@
       private System.Windows.Forms.TextBox textBoxBrowse;
       private System.Windows.Forms.ComboBox comboBoxDifficulty;
       private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.NumericUpDown numericUpDown1;
+      private System.Windows.Forms.NumericUpDown numericUpDownSeed;
       private System.Windows.Forms.RadioButton radioButtonRandom;
       private System.Windows.Forms.RadioButton radioButtonManual;
    }

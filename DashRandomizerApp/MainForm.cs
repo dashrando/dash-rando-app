@@ -16,23 +16,35 @@ namespace SuperMetroidRandoApp
 {
    public partial class MainForm : Form
    {
-      public MainForm()
+      private int numSeeds;
+      private bool generateSpoiler;
+      private bool testMode;
+
+      public MainForm(int NumSeeds, bool GenerateSpoiler, bool TestMode)
       {
          InitializeComponent();
 
-         //comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Casual, "Casual", "CX"));
-         //comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Normal, "Normal", "X"));
-         //comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Hard, "Hard", "HX"));
+         // Keep track of our inputs
+         numSeeds = NumSeeds;
+         generateSpoiler = GenerateSpoiler;
+         testMode = TestMode;
+
+         // Populate our Game Mode and Randomization options
          comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
-         //comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Open, "Open Mode", "OX"));
          comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
          comboBoxDifficulty.SelectedIndex = 0;
-
          comboBoxMode.SelectedIndex = 0;
-         numericUpDown1.Controls[1].Text = "";
-         //textBoxBrowse.Text = "SuperMetroid.sfc";
-         //textBoxBrowse.Select(0, 0);
 
+         // Clear the Seed field since we default to automatically generate a seed
+         numericUpDownSeed.Controls[1].Text = "";
+
+         // Are we creating more than one seed?
+         if (numSeeds > 1)
+         {
+            radioButtonManual.Enabled = false;
+         }
+
+         // Set the focus to one of the radio buttons instead of the ROM text box because it looks better
          radioButtonRandom.Focus();
       }
 
@@ -49,9 +61,8 @@ namespace SuperMetroidRandoApp
          int SpecifiedSeed = 0;
 
          if (radioButtonManual.Checked)
-            SpecifiedSeed = Convert.ToInt32(numericUpDown1.Value);
+            SpecifiedSeed = Convert.ToInt32(numericUpDownSeed.Value);
 
-         var RomData = File.ReadAllBytes(RomFile);
          var RandoDifficulty = comboBoxDifficulty.SelectedItem as RandoDifficulty;
 
          if (RandoDifficulty == null)
@@ -60,25 +71,39 @@ namespace SuperMetroidRandoApp
             return;
          }
 
+         // Pick the patches to apply based on the selected Game Mode and Randomization
          var IpsPatchesToApply = Patches.IpsPatches.Where(p => (p.Difficulty == RandoDifficulty.Difficulty ||
             p.Difficulty == Types.Difficulty.Any) && p.Default);
-
          var RomPatchesToApply = Patches.RomPatches.Where(p => (p.Difficulty == RandoDifficulty.Difficulty ||
             p.Difficulty == Types.Difficulty.Any) && p.Default);
 
-         //for (int i = 0; i < 100; i++)
-         //{
-            var Results = Randomizer.Randomize(SpecifiedSeed, RandoDifficulty.Difficulty, true, "", RomData,
-               ListModule.OfSeq(IpsPatchesToApply), ListModule.OfSeq(RomPatchesToApply));
+         // Generate the appropriate number of seeds
+         for (int i = 0; i < numSeeds; i++)
+         {
+            // Read the vanilla ROM into memory (needs to be done each time)
+            var RomData = File.ReadAllBytes(RomFile);
 
+            // Randomize the ROM
+            var Results = Randomizer.Randomize(SpecifiedSeed, RandoDifficulty.Difficulty, generateSpoiler,
+               "", RomData, ListModule.OfSeq(IpsPatchesToApply), ListModule.OfSeq(RomPatchesToApply));
+
+            // Get the results
             int TheSeed = Results.Item1;
             string RomPath = Path.GetDirectoryName(RomFile);
             string OutputPath = Path.Combine(RomPath, RandoDifficulty.GetFileName(TheSeed));
 
-            File.WriteAllBytes(OutputPath, Results.Item2);
-         //}
+            // Do not write the file to the disk in test mode
+            if (!testMode)
+               File.WriteAllBytes(OutputPath, Results.Item2);
 
-         NewRomForm.ShowGeneratedRom(GetShortPath(Path.GetFullPath(OutputPath)), RandoDifficulty, TheSeed);
+            // Only generating one seed? Show the New ROM form
+            if (numSeeds == 1)
+               NewRomForm.ShowGeneratedRom(GetShortPath(Path.GetFullPath(OutputPath)), RandoDifficulty, TheSeed);
+         }
+
+         // Generating more than one seed? Show the generic completion message
+         if (numSeeds > 1)
+            MessageBox.Show(String.Format("Generated {0} seeds!", numSeeds), "Created ROMs");
       }
 
       private void btnBrowse_Click(object sender, EventArgs e)
@@ -123,13 +148,13 @@ namespace SuperMetroidRandoApp
       {
          if (radioButtonManual.Checked)
          {
-            numericUpDown1.Enabled = true;
-            numericUpDown1.Controls[1].Text = numericUpDown1.Value.ToString();
+            numericUpDownSeed.Enabled = true;
+            numericUpDownSeed.Controls[1].Text = numericUpDownSeed.Value.ToString();
          }
          else
          {
-            numericUpDown1.Enabled = false;
-            numericUpDown1.Controls[1].Text = "";
+            numericUpDownSeed.Enabled = false;
+            numericUpDownSeed.Controls[1].Text = "";
          }
       }
    }
