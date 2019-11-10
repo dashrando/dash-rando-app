@@ -30,10 +30,10 @@ namespace SuperMetroidRandoApp
          testMode = TestMode;
 
          // Populate our Game Mode and Randomization options
-         comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
-         comboBoxDifficulty.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
-         comboBoxDifficulty.SelectedIndex = 0;
-         comboBoxMode.SelectedIndex = 0;
+         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
+         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
+         comboBoxRandomization.SelectedIndex = 0;
+         comboBoxGameMode.SelectedIndex = 0;
 
          // Clear the Seed field since we default to automatically generate a seed
          numericUpDownSeed.Controls[1].Text = "";
@@ -63,7 +63,7 @@ namespace SuperMetroidRandoApp
          if (radioButtonManual.Checked)
             SpecifiedSeed = Convert.ToInt32(numericUpDownSeed.Value);
 
-         var RandoDifficulty = comboBoxDifficulty.SelectedItem as RandoDifficulty;
+         var RandoDifficulty = comboBoxRandomization.SelectedItem as RandoDifficulty;
 
          if (RandoDifficulty == null)
          {

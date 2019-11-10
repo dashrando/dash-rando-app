@@ -33,13 +33,13 @@
          this.labelVanilla = new System.Windows.Forms.Label();
          this.btnBrowse = new System.Windows.Forms.Button();
          this.labelGameMode = new System.Windows.Forms.Label();
-         this.comboBoxMode = new System.Windows.Forms.ComboBox();
+         this.comboBoxGameMode = new System.Windows.Forms.ComboBox();
          this.label3 = new System.Windows.Forms.Label();
          this.label4 = new System.Windows.Forms.Label();
          this.label5 = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
          this.textBoxBrowse = new System.Windows.Forms.TextBox();
-         this.comboBoxDifficulty = new System.Windows.Forms.ComboBox();
+         this.comboBoxRandomization = new System.Windows.Forms.ComboBox();
          this.label1 = new System.Windows.Forms.Label();
          this.numericUpDownSeed = new System.Windows.Forms.NumericUpDown();
          this.radioButtonRandom = new System.Windows.Forms.RadioButton();
@@ -88,17 +88,17 @@
          this.labelGameMode.TabIndex = 11;
          this.labelGameMode.Text = "Game Mode:";
          // 
-         // comboBoxMode
+         // comboBoxGameMode
          // 
-         this.comboBoxMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.comboBoxMode.Font = new System.Drawing.Font("Calibri", 12F);
-         this.comboBoxMode.FormattingEnabled = true;
-         this.comboBoxMode.Items.AddRange(new object[] {
+         this.comboBoxGameMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.comboBoxGameMode.Font = new System.Drawing.Font("Calibri", 12F);
+         this.comboBoxGameMode.FormattingEnabled = true;
+         this.comboBoxGameMode.Items.AddRange(new object[] {
             "Standard"});
-         this.comboBoxMode.Location = new System.Drawing.Point(127, 54);
-         this.comboBoxMode.Name = "comboBoxMode";
-         this.comboBoxMode.Size = new System.Drawing.Size(172, 27);
-         this.comboBoxMode.TabIndex = 12;
+         this.comboBoxGameMode.Location = new System.Drawing.Point(127, 54);
+         this.comboBoxGameMode.Name = "comboBoxGameMode";
+         this.comboBoxGameMode.Size = new System.Drawing.Size(172, 27);
+         this.comboBoxGameMode.TabIndex = 12;
          // 
          // label3
          // 
@@ -148,15 +148,15 @@
          this.textBoxBrowse.Size = new System.Drawing.Size(471, 27);
          this.textBoxBrowse.TabIndex = 9;
          // 
-         // comboBoxDifficulty
+         // comboBoxRandomization
          // 
-         this.comboBoxDifficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.comboBoxDifficulty.Font = new System.Drawing.Font("Calibri", 12F);
-         this.comboBoxDifficulty.FormattingEnabled = true;
-         this.comboBoxDifficulty.Location = new System.Drawing.Point(127, 91);
-         this.comboBoxDifficulty.Name = "comboBoxDifficulty";
-         this.comboBoxDifficulty.Size = new System.Drawing.Size(170, 27);
-         this.comboBoxDifficulty.TabIndex = 14;
+         this.comboBoxRandomization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.comboBoxRandomization.Font = new System.Drawing.Font("Calibri", 12F);
+         this.comboBoxRandomization.FormattingEnabled = true;
+         this.comboBoxRandomization.Location = new System.Drawing.Point(127, 91);
+         this.comboBoxRandomization.Name = "comboBoxRandomization";
+         this.comboBoxRandomization.Size = new System.Drawing.Size(170, 27);
+         this.comboBoxRandomization.TabIndex = 14;
          // 
          // label1
          // 
@@ -226,14 +226,14 @@
          this.Controls.Add(this.radioButtonManual);
          this.Controls.Add(this.radioButtonRandom);
          this.Controls.Add(this.numericUpDownSeed);
-         this.Controls.Add(this.comboBoxDifficulty);
+         this.Controls.Add(this.comboBoxRandomization);
          this.Controls.Add(this.label1);
          this.Controls.Add(this.textBoxBrowse);
          this.Controls.Add(this.label5);
          this.Controls.Add(this.label6);
          this.Controls.Add(this.label4);
          this.Controls.Add(this.label3);
-         this.Controls.Add(this.comboBoxMode);
+         this.Controls.Add(this.comboBoxGameMode);
          this.Controls.Add(this.labelGameMode);
          this.Controls.Add(this.btnBrowse);
          this.Controls.Add(this.labelVanilla);
@@ -259,13 +259,13 @@
       private System.Windows.Forms.Label labelVanilla;
       private System.Windows.Forms.Button btnBrowse;
       private System.Windows.Forms.Label labelGameMode;
-      private System.Windows.Forms.ComboBox comboBoxMode;
+      private System.Windows.Forms.ComboBox comboBoxGameMode;
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.Label label4;
       private System.Windows.Forms.Label label5;
       private System.Windows.Forms.Label label6;
       private System.Windows.Forms.TextBox textBoxBrowse;
-      private System.Windows.Forms.ComboBox comboBoxDifficulty;
+      private System.Windows.Forms.ComboBox comboBoxRandomization;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.NumericUpDown numericUpDownSeed;
       private System.Windows.Forms.RadioButton radioButtonRandom;
