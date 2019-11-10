@@ -173,10 +173,25 @@
          this.numericUpDown1.Enabled = false;
          this.numericUpDown1.Font = new System.Drawing.Font("Calibri", 12F);
          this.numericUpDown1.Location = new System.Drawing.Point(427, 92);
+         this.numericUpDown1.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+         this.numericUpDown1.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
          this.numericUpDown1.Name = "numericUpDown1";
          this.numericUpDown1.Size = new System.Drawing.Size(120, 27);
          this.numericUpDown1.TabIndex = 2;
          this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+         this.numericUpDown1.Value = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
          // 
          // radioButtonRandom
          // 
@@ -194,7 +209,6 @@
          // radioButtonManual
          // 
          this.radioButtonManual.AutoSize = true;
-         this.radioButtonManual.Enabled = false;
          this.radioButtonManual.Font = new System.Drawing.Font("Calibri", 12F);
          this.radioButtonManual.Location = new System.Drawing.Point(330, 92);
          this.radioButtonManual.Name = "radioButtonManual";
@@ -202,6 +216,7 @@
          this.radioButtonManual.TabIndex = 1;
          this.radioButtonManual.Text = "Use Seed:";
          this.radioButtonManual.UseVisualStyleBackColor = true;
+         this.radioButtonManual.CheckedChanged += new System.EventHandler(this.radioButtonManual_CheckedChanged);
          // 
          // MainForm
          // 

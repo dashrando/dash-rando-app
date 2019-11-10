@@ -35,20 +35,20 @@ module Patches =
                 FileName = "seed_display.ips";
                 PatchType = Standard;
             };
-            //{
-                //Name = "Custom credits with stats";
-                //Difficulty = Difficulty.Any;
-                //Default = true;
-                //FileName = "credits.ips";
-                //PatchType = Standard;
-            //};
-            //{
-                //Name = "Custom credits with stats (tracking code)";
-                //Difficulty = Difficulty.Any;
-                //Default = true;
-                //FileName = "tracking.ips";
-                //PatchType = Standard;
-            //};
+            {
+                Name = "Custom credits with stats";
+                Difficulty = Difficulty.Any;
+                Default = true;
+                FileName = "credits.ips";
+                PatchType = Standard;
+            };
+            {
+                Name = "Custom credits with stats (tracking code)";
+                Difficulty = Difficulty.Any;
+                Default = true;
+                FileName = "tracking.ips";
+                PatchType = Standard;
+            };
             {
                 Name = "Max Ammo Display by personitis";
                 Difficulty = Difficulty.Any;

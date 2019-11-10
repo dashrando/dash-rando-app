@@ -118,5 +118,19 @@ namespace SuperMetroidRandoApp
          // Uri's use forward slashes so convert back to backward slashes
          return relativeUri.ToString().Replace("/", "\\");
       }
+
+      private void radioButtonManual_CheckedChanged(object sender, EventArgs e)
+      {
+         if (radioButtonManual.Checked)
+         {
+            numericUpDown1.Enabled = true;
+            numericUpDown1.Controls[1].Text = numericUpDown1.Value.ToString();
+         }
+         else
+         {
+            numericUpDown1.Enabled = false;
+            numericUpDown1.Controls[1].Text = "";
+         }
+      }
    }
 }

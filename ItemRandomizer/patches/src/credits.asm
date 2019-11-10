@@ -928,10 +928,16 @@ script:
 
     // Custom item randomizer credits text        
 
-    dw {draw}, {row}*128
+    dw {draw}, {row}*128  // Randomizer staff
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*129
+    dw {draw}, {row}*164  // Game balance
+    dw {draw}, {blank}
+    dw {draw}, {row}*166
+    dw {draw}, {row}*167
+    dw {draw}, {blank}
+    dw {draw}, {blank}
+    dw {draw}, {row}*129  // Rando code
     dw {draw}, {blank}
     dw {draw}, {row}*130
     dw {draw}, {row}*131
@@ -940,33 +946,66 @@ script:
     dw {draw}, {row}*133
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*134
+    dw {draw}, {row}*141  // ROM patches
     dw {draw}, {blank}
-    dw {draw}, {row}*135
-    dw {draw}, {row}*136
-    dw {draw}, {blank}
-    dw {draw}, {row}*137
-    dw {draw}, {row}*138
-    dw {draw}, {blank}
-    dw {draw}, {row}*139
-    dw {draw}, {row}*140
-    dw {draw}, {blank}
-    dw {draw}, {blank}
-    dw {draw}, {row}*141
-    dw {draw}, {blank}
-    dw {draw}, {row}*142
-    dw {draw}, {row}*143
-    dw {draw}, {blank}
-    dw {draw}, {row}*144
+    dw {draw}, {row}*144  // andrew
     dw {draw}, {row}*145
     dw {draw}, {blank}
-    dw {draw}, {row}*146
+    dw {draw}, {row}*146  // leodox
     dw {draw}, {row}*147
     dw {draw}, {blank}
+    dw {draw}, {row}*139  // personitis
+    dw {draw}, {row}*140
     dw {draw}, {blank}
-    dw {draw}, {row}*148
+    dw {draw}, {row}*168  // smiley
+    dw {draw}, {row}*169
     dw {draw}, {blank}
-    dw {draw}, {row}*149
+    dw {draw}, {row}*142  // total
+    dw {draw}, {row}*143
+    dw {draw}, {blank}
+    dw {draw}, {blank}
+    dw {draw}, {row}*162  // Logo design
+    dw {draw}, {blank}
+    dw {draw}, {row}*160
+    dw {draw}, {row}*161
+    dw {draw}, {blank}
+    dw {draw}, {blank}
+    dw {draw}, {row}*157  // Application and website
+    dw {draw}, {blank}
+    dw {draw}, {row}*158
+    dw {draw}, {row}*159
+    dw {draw}, {blank}
+    dw {draw}, {blank}
+    dw {draw}, {row}*148  // Special thanks to...
+    dw {draw}, {blank}
+    dw {draw}, {row}*154  // Testing
+    dw {draw}, {blank}
+    dw {draw}, {row}*137  // andrew
+    dw {draw}, {row}*138
+    dw {draw}, {blank}
+    dw {draw}, {row}*155  // fbs
+    dw {draw}, {row}*156
+    dw {draw}, {blank}
+    dw {draw}, {row}*171  // maniacal
+    dw {draw}, {row}*172
+    dw {draw}, {blank}
+    dw {draw}, {row}*173  // osse
+    dw {draw}, {row}*174
+    dw {draw}, {blank}
+    dw {draw}, {row}*222  // rumble
+    dw {draw}, {row}*223
+    dw {draw}, {blank}
+    dw {draw}, {row}*224  // sloaters
+    dw {draw}, {row}*225
+    dw {draw}, {blank}
+    dw {draw}, {row}*226  // tracie
+    dw {draw}, {row}*227
+    dw {draw}, {blank}
+    dw {draw}, {row}*228  // zeb
+    dw {draw}, {row}*229
+    dw {draw}, {blank}
+    dw {draw}, {blank}
+    dw {draw}, {row}*149  // Disassembly
     dw {draw}, {blank}
     dw {draw}, {row}*150
     dw {draw}, {row}*151
@@ -975,67 +1014,29 @@ script:
     dw {draw}, {row}*153
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*154
-    dw {draw}, {blank}
-    dw {draw}, {row}*155
-    dw {draw}, {row}*156
-    dw {draw}, {blank}
-    dw {draw}, {blank}
-    dw {draw}, {row}*157
-    dw {draw}, {blank}
-    dw {draw}, {row}*158
-    dw {draw}, {row}*159
-    dw {draw}, {blank}
-    dw {draw}, {row}*160
-    dw {draw}, {row}*161
-    dw {draw}, {blank}
-    dw {draw}, {row}*162
-    dw {draw}, {row}*163
-    dw {draw}, {blank}
-    dw {draw}, {row}*164
-    dw {draw}, {row}*165
-    dw {draw}, {blank}
-    dw {draw}, {row}*166
-    dw {draw}, {row}*167
-    dw {draw}, {blank}
-    dw {draw}, {row}*168
-    dw {draw}, {row}*169
-    dw {draw}, {blank}
-    dw {draw}, {blank}
-    dw {draw}, {row}*170
-    dw {draw}, {blank}
-    dw {draw}, {row}*171
-    dw {draw}, {row}*172
-    dw {draw}, {blank}
-    dw {draw}, {row}*173
-    dw {draw}, {row}*174
-    dw {draw}, {blank}
-    dw {draw}, {blank}
-    dw {draw}, {row}*175
+    dw {draw}, {row}*175  // Metroid construction
     dw {draw}, {blank}
     dw {draw}, {row}*176
     dw {draw}, {row}*177
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*178
+    dw {draw}, {row}*178  // SRL
     dw {draw}, {blank}
     dw {draw}, {row}*179
     dw {draw}, {row}*180
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*221
+    dw {draw}, {row}*221  // Play this randomizer at
     dw {draw}, {blank}
     dw {draw}, {row}*181
     dw {draw}, {row}*182
     dw {draw}, {blank}
-    dw {draw}, {blank}
-    dw {draw}, {blank}
     
     dw {draw}, {blank}
-    dw {draw}, {row}*183
+    dw {draw}, {row}*183  // Game play stats
     dw {draw}, {blank}
     dw {draw}, {blank}
-    dw {draw}, {row}*184
+    dw {draw}, {row}*184  // Doors
     dw {draw}, {blank}
 
     // Set scroll speed to 3 frames per pixel
@@ -1208,9 +1209,9 @@ credits:
     // }!@#$%&/()>~.
     
     {pink}
-    dw "     ITEM RANDOMIZER STAFF      " // 128
+    dw "     DASH RANDOMIZER STAFF      " // 128
     {purple}
-    dw "         RANDOMIZER CODE        " // 129
+    dw "        RANDOMIZER CODE         " // 129
     {big}
     dw "             TOTAL              " // 130
     dw "             total              " // 131
@@ -1221,8 +1222,8 @@ credits:
     {big}
     dw "             TOTAL              " // 135
     dw "             total              " // 136
-    dw "             FOOSDA             " // 137
-    dw "             foosda             " // 138
+    dw "             ANDREW             " // 137
+    dw "             andrew             " // 138
     dw "           PERSONITIS           " // 139
     dw "           personitis           " // 140
     {purple}
@@ -1230,8 +1231,8 @@ credits:
     {big}
     dw "             TOTAL              " // 142
     dw "             total              " // 143
-    dw "             FOOSDA             " // 144
-    dw "             foosda             " // 145
+    dw "             ANDREW             " // 144
+    dw "             andrew             " // 145
     dw "             LEODOX             " // 146
     dw "             leodox             " // 147
     {cyan}
@@ -1244,32 +1245,32 @@ credits:
     dw "            KEJARDON            " // 152
     dw "            kejardon            " // 153
     {yellow}
-    dw "            TRACKER             " // 154
+    dw "            TESTING             " // 154
     {big}
-    dw "          CROSSPRODUCT          " // 155
-    dw "          crossproduct          " // 156
-    {yellow}
-    dw "     TOURNAMENT ORGANIZERS      " // 157
+    dw "         FRUITBATSALAD          " // 155
+    dw "         fruitbatsalad          " // 156
+    {purple}
+    dw "    APPLICATION AND WEBSITE     " // 157
     {big}
-    dw "            FERAL5X             " // 158
-    dw "            feral%x             " // 159
-    dw "           STRAEVARAS           " // 160
-    dw "           straevaras           " // 161
-    dw "         WILDANACONDA69         " // 162
-    dw "         wildanaconda&)         " // 163
-    dw "           BELTHASAR            " // 164
-    dw "           belthasar            " // 165
-    dw "          KEKUMANSHOYU          " // 166
-    dw "          kekumanshoyu          " // 167
-    dw "             TYPWO              " // 168
-    dw "             typwo              " // 169
-    {yellow}
-    dw "       SPEEDGAMING STAFF        " // 170
+    dw "          MASSHESTERIA          " // 158
+    dw "          masshesteria          " // 159
+    dw "           MINIMEMYS            " // 160
+    dw "           minimemys            " // 161
+    {purple}
+    dw "          LOGO DESIGN           " // 162
+    dw "                                " // 163
+    dw "          GAME BALANCE          " // 164
     {big}
-    dw "            FEASEL              " // 171
-    dw "            feasel              " // 172
-    dw "           MITHICAL9            " // 173
-    dw "           mithical)            " // 174
+    dw "                                " // 165
+    dw "              KIPP              " // 166
+    dw "              kipp              " // 167
+    dw "             SMILEY             " // 168
+    dw "             smiley             " // 169
+    dw "                                " // 170
+    dw "            MANIACAL            " // 171
+    dw "            maniacal            " // 172
+    dw "            OSSE101             " // 173
+    dw "            osse!}!             " // 174
     {yellow}
     dw "      METROID CONSTRUCTION      " // 175
     {big}
@@ -1280,8 +1281,8 @@ credits:
     {big}
     dw "    DISCORD INVITE . 6RYJM4M    " // 179
     dw "    discord invite . &ryjm$m    " // 180
-    dw "   ITEMRANDO SUPERMETROID RUN   " // 181
-    dw "   itemrando.supermetroid.run   " // 182
+    dw "      DASHRANDO GITHUB IO       " // 181
+    dw "      dashrando.github.io       " // 182
     {purple}
     dw "      GAMEPLAY STATISTICS       " // 183
     {orange}
@@ -1329,6 +1330,15 @@ credits:
     dw "       thanks for playing       " // 220
     {cyan}
     dw "     PLAY THIS RANDOMIZER AT    " // 221
+    {big}
+    dw "          RUMBLEMINZE           " // 222
+    dw "          rumbleminze           " // 223
+    dw "           SLOATERS27           " // 224
+    dw "           sloaters@/           " // 225
+    dw "            TRACIEM             " // 226
+    dw "            traciem             " // 227
+    dw "             ZEB316             " // 228
+    dw "             zeb#!&             " // 229
     dw $0000                              // End of credits tilemap
 
 warnpc $ceffff
