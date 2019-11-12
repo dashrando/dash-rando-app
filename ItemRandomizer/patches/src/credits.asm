@@ -948,7 +948,7 @@ script:
     dw {draw}, {blank}
     dw {draw}, {row}*141  // ROM patches
     dw {draw}, {blank}
-    dw {draw}, {row}*144  // andrew
+    dw {draw}, {row}*144  // andreww
     dw {draw}, {row}*145
     dw {draw}, {blank}
     dw {draw}, {row}*146  // leodox
@@ -980,7 +980,7 @@ script:
     dw {draw}, {blank}
     dw {draw}, {row}*154  // Testing
     dw {draw}, {blank}
-    dw {draw}, {row}*137  // andrew
+    dw {draw}, {row}*137  // andreww
     dw {draw}, {row}*138
     dw {draw}, {blank}
     dw {draw}, {row}*155  // fbs
@@ -1222,8 +1222,8 @@ credits:
     {big}
     dw "             TOTAL              " // 135
     dw "             total              " // 136
-    dw "             ANDREW             " // 137
-    dw "             andrew             " // 138
+    dw "            ANDREWW             " // 137
+    dw "            andreww             " // 138
     dw "           PERSONITIS           " // 139
     dw "           personitis           " // 140
     {purple}
@@ -1231,8 +1231,8 @@ credits:
     {big}
     dw "             TOTAL              " // 142
     dw "             total              " // 143
-    dw "             ANDREW             " // 144
-    dw "             andrew             " // 145
+    dw "            ANDREWW             " // 144
+    dw "            andreww             " // 145
     dw "             LEODOX             " // 146
     dw "             leodox             " // 147
     {cyan}
@@ -1245,12 +1245,12 @@ credits:
     dw "            KEJARDON            " // 152
     dw "            kejardon            " // 153
     {yellow}
-    dw "            TESTING             " // 154
+    dw "            TESTERS             " // 154
     {big}
     dw "         FRUITBATSALAD          " // 155
     dw "         fruitbatsalad          " // 156
     {purple}
-    dw "    APPLICATION AND WEBSITE     " // 157
+    dw "       TECHNICAL SUPPORT        " // 157
     {big}
     dw "          MASSHESTERIA          " // 158
     dw "          masshesteria          " // 159
