@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using ItemRandomizer;
 using Microsoft.FSharp.Core;
 using Microsoft.FSharp.Collections;
+using System.Security.Cryptography;
 
 namespace SuperMetroidRandoApp
 {
@@ -19,6 +20,8 @@ namespace SuperMetroidRandoApp
       private int numSeeds;
       private bool generateSpoiler;
       private bool testMode;
+      private string romPath = string.Empty;
+      private bool romVerified = false;
 
       public MainForm(int NumSeeds, bool GenerateSpoiler, bool TestMode)
       {
@@ -50,7 +53,7 @@ namespace SuperMetroidRandoApp
 
       private void btnRandomize_Click(object sender, EventArgs e)
       {
-         var RomFile = textBoxBrowse.Text;
+         var RomFile = romPath;
 
          if (!File.Exists(RomFile))
          {
@@ -115,7 +118,14 @@ namespace SuperMetroidRandoApp
 
          if (DialogResult.OK == BrowseForVanilla.ShowDialog())
          {
-            textBoxBrowse.Text = GetShortPath(BrowseForVanilla.FileName);
+            romPath = Path.GetFileName(BrowseForVanilla.FileName);
+
+            File.Copy(BrowseForVanilla.FileName,
+               Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), romPath), true);
+
+            romVerified = VerifyRomChecksum(romPath);
+
+            UpdateRomStatusUI();
          }
       }
 
@@ -156,6 +166,77 @@ namespace SuperMetroidRandoApp
             numericUpDownSeed.Enabled = false;
             numericUpDownSeed.Controls[1].Text = "";
          }
+      }
+
+      private void UpdateRomStatus()
+      {
+         string ExecDir = Path.GetDirectoryName(Application.ExecutablePath);
+
+         foreach (var RomFile in Directory.GetFiles(ExecDir).Where(p =>
+            p.ToLower().EndsWith(".sfc") || p.ToLower().EndsWith(".smc")))
+         {
+            if (!VerifyRomChecksum(RomFile))
+               continue;
+
+            romPath = RomFile;
+            romVerified = true;
+            break;
+         }
+
+         UpdateRomStatusUI();
+      }
+
+      private void UpdateRomStatusUI()
+      {
+         if (String.IsNullOrEmpty(romPath))
+         {
+            labelRomStatus.BackColor = Color.Red;
+            labelRomStatus.ForeColor = Color.White;
+            labelRomStatus.Text = "Missing";
+            btnRandomize.Enabled = false;
+            toolTip1.SetToolTip(labelRomStatus,
+               "Super Metroid unheader ROM missing. Press Browse to find the ROM.");
+            return;
+         }
+
+         btnRandomize.Enabled = true;
+
+         if (romVerified)
+         {
+            labelRomStatus.BackColor = Color.Green;
+            labelRomStatus.ForeColor = Color.White;
+            labelRomStatus.Text = "Verified";
+            toolTip1.SetToolTip(labelRomStatus,
+               "Super Metroid unheader ROM found. Ready to Randomize!");
+            return;
+         }
+
+         labelRomStatus.BackColor = Color.Yellow;
+         labelRomStatus.ForeColor = Color.Black;
+         labelRomStatus.Text = "Unverified";
+         toolTip1.SetToolTip(labelRomStatus,
+            "Specified ROM does match known Super Metroid unheader ROM checksum. Results may vary.");
+         return;
+      }
+
+      private bool VerifyRomChecksum(string RomPath)
+      {
+         using (var stream = File.OpenRead(RomPath))
+         {
+            SHA256Managed Temp = new SHA256Managed();
+            byte[] checksum = Temp.ComputeHash(stream);
+            string checksumString = BitConverter.ToString(checksum).Replace("-", String.Empty);
+
+            if (checksumString.ToLower() != "12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72")
+               return false;
+
+            return true;
+         }
+      }
+
+      private void MainForm_Load(object sender, EventArgs e)
+      {
+         UpdateRomStatus();
       }
    }
 }
