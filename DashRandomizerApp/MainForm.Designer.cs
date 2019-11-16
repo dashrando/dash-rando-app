@@ -57,6 +57,7 @@
          this.btnRandomize.Size = new System.Drawing.Size(112, 30);
          this.btnRandomize.TabIndex = 3;
          this.btnRandomize.Text = "Randomize!";
+         this.toolTip1.SetToolTip(this.btnRandomize, "Generate Randomized Super Metroid ROM!");
          this.btnRandomize.Click += new System.EventHandler(this.btnRandomize_Click);
          // 
          // labelVanilla
@@ -78,6 +79,7 @@
          this.btnBrowse.Size = new System.Drawing.Size(112, 30);
          this.btnBrowse.TabIndex = 10;
          this.btnBrowse.Text = "Browse...";
+         this.toolTip1.SetToolTip(this.btnBrowse, "Browse for unheader Super Metroid ROM");
          this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
          // 
          // labelGameMode
@@ -126,17 +128,17 @@
          // 
          this.label5.AutoSize = true;
          this.label5.Font = new System.Drawing.Font("Calibri", 9F);
-         this.label5.Location = new System.Drawing.Point(360, 137);
+         this.label5.Location = new System.Drawing.Point(357, 137);
          this.label5.Name = "label5";
-         this.label5.Size = new System.Drawing.Size(184, 14);
+         this.label5.Size = new System.Drawing.Size(193, 14);
          this.label5.TabIndex = 7;
-         this.label5.Text = "Dessyreqt, Total, Foosda, Leodox";
+         this.label5.Text = "Dessyreqt, Total, andreww, Leodox";
          // 
          // label6
          // 
          this.label6.AutoSize = true;
          this.label6.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Underline);
-         this.label6.Location = new System.Drawing.Point(258, 137);
+         this.label6.Location = new System.Drawing.Point(255, 137);
          this.label6.Name = "label6";
          this.label6.Size = new System.Drawing.Size(105, 14);
          this.label6.TabIndex = 6;
@@ -252,7 +254,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "Super Metroid DASH Randomizer! [v6.0.1]";
+         this.Text = "Super Metroid DASH Randomizer! [v6.0.2]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          this.ResumeLayout(false);

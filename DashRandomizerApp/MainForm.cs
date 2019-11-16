@@ -190,7 +190,7 @@ namespace DASH
             labelRomStatus.Text = "Missing";
             btnRandomize.Enabled = false;
             toolTip1.SetToolTip(labelRomStatus,
-               "Super Metroid unheader ROM missing. Press Browse to find the ROM.");
+               "Super Metroid unheadered ROM missing. Press Browse to find the ROM.");
             return;
          }
 
@@ -202,7 +202,7 @@ namespace DASH
             labelRomStatus.ForeColor = Color.White;
             labelRomStatus.Text = "Verified";
             toolTip1.SetToolTip(labelRomStatus,
-               "Super Metroid unheader ROM found. Ready to Randomize!");
+               "Super Metroid unheadered ROM found. Ready to Randomize!");
             return;
          }
 
@@ -210,7 +210,7 @@ namespace DASH
          labelRomStatus.ForeColor = Color.Black;
          labelRomStatus.Text = "Unverified";
          toolTip1.SetToolTip(labelRomStatus,
-            "Specified ROM does match known Super Metroid unheader ROM checksum. Results may vary.");
+            "Specified ROM does match known Super Metroid unheadered ROM checksum. Results may vary.");
          return;
       }
 
