@@ -102,14 +102,15 @@ module Randomizer =
                              | _ -> DefaultRandomizer.generateItems
         
         // Get a random animal patch
-        let rnd = Random(seed)
-        let animalsPatches = (List.filter (fun ip -> ip.PatchType = Animals) Patches.IpsPatches)
-        let animalsPatch = animalsPatches.Item (rnd.Next animalsPatches.Length)
+        //let rnd = Random(seed)
+        //let animalsPatches = (List.filter (fun ip -> ip.PatchType = Animals) Patches.IpsPatches)
+        //let animalsPatch = animalsPatches.Item (rnd.Next animalsPatches.Length)
 
         //let expandedRom = Array.create<byte> ((Array.length baseRom) + 0xF8000) 0xFFuy
         //System.Buffer.BlockCopy(baseRom, 0, expandedRom, 0, baseRom.Length)
 
-        (seed, randomizeItems generateItems (Patches.ApplyPatches (animalsPatch :: ipsPatches) patches baseRom) seed spoiler fileName locationPool)
+        //(seed, randomizeItems generateItems (Patches.ApplyPatches (animalsPatch :: ipsPatches) patches baseRom) seed spoiler fileName locationPool)
+        (seed, randomizeItems generateItems (Patches.ApplyPatches (ipsPatches) patches baseRom) seed spoiler fileName locationPool)
 
     let TestRandomize =
         let mutable itemLocations:(ItemLocation list) = []

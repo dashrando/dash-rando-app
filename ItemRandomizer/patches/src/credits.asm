@@ -1267,8 +1267,8 @@ credits:
     dw "             SMILEY             " // 168
     dw "             smiley             " // 169
     dw "                                " // 170
-    dw "            MANIACAL            " // 171
-    dw "            maniacal            " // 172
+    dw "           MANIACAL42           " // 171
+    dw "           maniacal$@           " // 172
     dw "            OSSE101             " // 173
     dw "            osse!}!             " // 174
     {yellow}
