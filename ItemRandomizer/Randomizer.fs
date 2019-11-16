@@ -104,7 +104,7 @@ module Randomizer =
         // Get a random animal patch
         let rnd = Random(seed)
         let animalsPatches = (List.filter (fun ip -> ip.PatchType = Animals) Patches.IpsPatches)
-        let animalsPatch = List.item (rnd.Next animalsPatches.Length) animalsPatches
+        let animalsPatch = animalsPatches.Item (rnd.Next animalsPatches.Length)
 
         //let expandedRom = Array.create<byte> ((Array.length baseRom) + 0xF8000) 0xFFuy
         //System.Buffer.BlockCopy(baseRom, 0, expandedRom, 0, baseRom.Length)

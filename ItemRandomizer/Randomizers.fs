@@ -38,11 +38,11 @@ module DefaultRandomizer =
 
     let placeItem (rnd:Random) (items:Item list) (itemPool:Item list) locations =
         let item = match List.length items with
-                   | 0 -> List.item (rnd.Next (List.length itemPool)) itemPool
-                   | _ -> List.item (rnd.Next (List.length items)) items
+                   | 0 -> itemPool.Item (rnd.Next (List.length itemPool)) 
+                   | _ -> items.Item (rnd.Next (List.length items)) 
         
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations))) }
 
     let rec generateItems rnd items itemLocations itemPool locationPool =
         match itemPool with
@@ -105,12 +105,12 @@ module SparseRandomizer =
 
     let placeItem (rnd:Random) (items:Item list) (itemPool:Item list) locations =
         let item = (match List.length items with
-                    | 0 -> List.item (rnd.Next (List.length itemPool)) itemPool
-                    | _ -> List.item (((rnd.Next (List.length items))+1)/2) items)
+                    | 0 -> itemPool.Item (rnd.Next (List.length itemPool)) 
+                    | _ -> items.Item (((rnd.Next (List.length items))+1)/2) )
     
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
 
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
 
     
     let placeFiller (rnd:Random) (items:Item list) (itemPool:Item list) (itemLocations:ItemLocation list) locations =
@@ -118,7 +118,7 @@ module SparseRandomizer =
         let item = sortedList.Head
         
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
 
     let rec fillItems rnd items itemLocations itemPool locationPool =
         let initialLocations = (currentLocations items itemLocations locationPool)
@@ -181,15 +181,15 @@ module OpenRandomizer =
 
     let placeItem (rnd:Random) (items:Item list) (itemPool:Item list) locations =
         let item = match List.length items with
-                   | 0 -> List.item (rnd.Next (List.length itemPool)) itemPool
-                   | _ -> List.item (rnd.Next (List.length items)) items
+                   | 0 -> itemPool.Item (rnd.Next (List.length itemPool)) 
+                   | _ -> items.Item (rnd.Next (List.length items)) 
         
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
     
     let placeSpecificItem (rnd:Random) item (itemPool:Item list) locations =
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
 
     let placeSpecificItemAtLocation item location =
         { Item = item; Location = location }
@@ -344,15 +344,15 @@ module NewRandomizer =
                    | 0 -> 
                           if (List.exists (fun i -> i.Type = ScrewAttack) itemPool) then (List.find (fun i -> i.Type = ScrewAttack) itemPool)
                           elif (List.exists (fun i -> i.Type = SpeedBooster) itemPool) then (List.find (fun i -> i.Type = SpeedBooster) itemPool)
-                          else List.item (rnd.Next (List.length itemPool)) itemPool
-                   | _ -> List.item (rnd.Next (List.length items)) items
+                          else itemPool.Item (rnd.Next (List.length itemPool)) 
+                   | _ -> items.Item (rnd.Next (List.length items)) 
         
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
     
     let placeSpecificItem (rnd:Random) item (itemPool:Item list) locations =
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
 
     let placeSpecificItemAtLocation item location =
         { Item = item; Location = location }
@@ -425,7 +425,7 @@ module NewRandomizer =
     let prefill (rnd:Random) (itemType:ItemType) (items:Item list byref) (itemLocations:ItemLocation list byref) (itemPool:Item list byref) (locationPool:Location list) =
         let item = List.find (fun i -> i.Type = itemType) Items.Items
         let cl = List.filter (fun l -> l.Class = item.Class && canPlaceAtLocation item l) (currentLocations items itemLocations locationPool)
-        let itemLocation = placeSpecificItemAtLocation item (List.item (rnd.Next (List.length cl)) cl)
+        let itemLocation = placeSpecificItemAtLocation item (cl.Item (rnd.Next (List.length cl)) )
         items <- itemLocation.Item :: items
         itemPool <- removeItem itemLocation.Item.Type itemPool
         itemLocations <- itemLocation :: itemLocations
@@ -523,15 +523,15 @@ module FullRandomizer =
                    | 0 -> 
                           if (List.exists (fun i -> i.Type = ScrewAttack) itemPool) then (List.find (fun i -> i.Type = ScrewAttack) itemPool)
                           elif (List.exists (fun i -> i.Type = SpeedBooster) itemPool) then (List.find (fun i -> i.Type = SpeedBooster) itemPool)
-                          else List.item (rnd.Next (List.length itemPool)) itemPool
-                   | _ -> List.item (rnd.Next (List.length items)) items
+                          else itemPool.Item (rnd.Next (List.length itemPool)) 
+                   | _ -> items.Item (rnd.Next (List.length items)) 
         
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
     
     let placeSpecificItem (rnd:Random) item (itemPool:Item list) locations =
         let availableLocations = List.filter (fun location -> canPlaceAtLocation item location) locations
-        { Item = item; Location = (List.item (rnd.Next (List.length availableLocations)) availableLocations) }
+        { Item = item; Location = (availableLocations.Item (rnd.Next (List.length availableLocations)) ) }
 
     let placeSpecificItemAtLocation item location =
         { Item = item; Location = location }
@@ -596,7 +596,7 @@ module FullRandomizer =
     let prefill (rnd:Random) (itemType:ItemType) (items:Item list byref) (itemLocations:ItemLocation list byref) (itemPool:Item list byref) (locationPool: Location list) =
         let item = List.find (fun i -> i.Type = itemType) Items.Items
         let cl = List.filter (fun l -> canPlaceAtLocation item l) (currentLocations items itemLocations locationPool)
-        let itemLocation = placeSpecificItemAtLocation item (List.item (rnd.Next (List.length cl)) cl)
+        let itemLocation = placeSpecificItemAtLocation item (cl.Item (rnd.Next (List.length cl)) )
         items <- itemLocation.Item :: items
         itemPool <- removeItem itemLocation.Item.Type itemPool
         itemLocations <- itemLocation :: itemLocations
