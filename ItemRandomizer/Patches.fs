@@ -534,8 +534,3 @@ module Patches =
         romData
         |> applyPatches patches
         |> applyIpsPatches (getIpsData ipsPatches)
-        |> applyIpsPatches Resources.ExternalIpsPatches
-            
-
-        
-
