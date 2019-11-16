@@ -1,4 +1,4 @@
-﻿namespace SuperMetroidRandoApp
+﻿namespace DASH
 {
    partial class MainForm
    {

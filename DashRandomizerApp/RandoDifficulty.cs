@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ItemRandomizer;
+﻿using ItemRandomizer;
 
-namespace SuperMetroidRandoApp
+namespace DASH
 {
    internal class RandoDifficulty
    {
