@@ -57,10 +57,10 @@ module Patches =
                 PatchType = Standard;
             };
             {
-                Name = "DASH Logic designed by Kipp (written by Smiley)";
+                Name = "DASH updates by Kipp / Smiley";
                 Difficulty = Difficulty.Any;
                 Default = true;
-                FileName = "dash_rando_v6.ips";
+                FileName = "dash.ips";
                 PatchType = Standard;
             };
             // {

@@ -108,7 +108,7 @@
          // 
          this.label3.AutoSize = true;
          this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.label3.Location = new System.Drawing.Point(13, 137);
+         this.label3.Location = new System.Drawing.Point(9, 137);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(84, 14);
          this.label3.TabIndex = 4;
@@ -118,7 +118,7 @@
          // 
          this.label4.AutoSize = true;
          this.label4.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.label4.Location = new System.Drawing.Point(94, 137);
+         this.label4.Location = new System.Drawing.Point(90, 137);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(154, 14);
          this.label4.TabIndex = 5;
@@ -128,7 +128,7 @@
          // 
          this.label5.AutoSize = true;
          this.label5.Font = new System.Drawing.Font("Calibri", 9F);
-         this.label5.Location = new System.Drawing.Point(357, 137);
+         this.label5.Location = new System.Drawing.Point(353, 137);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(193, 14);
          this.label5.TabIndex = 7;
@@ -138,7 +138,7 @@
          // 
          this.label6.AutoSize = true;
          this.label6.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Underline);
-         this.label6.Location = new System.Drawing.Point(255, 137);
+         this.label6.Location = new System.Drawing.Point(251, 137);
          this.label6.Name = "label6";
          this.label6.Size = new System.Drawing.Size(105, 14);
          this.label6.TabIndex = 6;
@@ -231,7 +231,7 @@
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(555, 169);
+         this.ClientSize = new System.Drawing.Size(556, 166);
          this.Controls.Add(this.labelRomStatus);
          this.Controls.Add(this.radioButtonManual);
          this.Controls.Add(this.radioButtonRandom);
@@ -254,7 +254,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "Super Metroid DASH Randomizer! [v6.0.2]";
+         this.Text = "DASH Super Metroid Randomizer! [v7]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          this.ResumeLayout(false);

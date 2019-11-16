@@ -19,7 +19,7 @@ namespace DASH
 
       public string GetFileName(int Seed)
       {
-         return string.Format("DASH_v6_{0}_{1}.sfc", Code, Seed);
+         return string.Format("DASH_v7_{0}_{1}.sfc", Code, Seed);
       }
 
       public override string ToString()
