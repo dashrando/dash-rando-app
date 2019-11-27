@@ -316,7 +316,7 @@ module NewRandomizer =
     let canPlaceAtLocation (item:Item) (location:Location) =
         location.Class = item.Class &&
         (match item.Type with
-        | Gravity -> (not (location.Area = Crateria || location.Area = Brinstar)) || location.Name = "X-Ray Scope" || location.Name = "Energy Tank, Waterway"
+        | Gravity -> (not (location.Area = Crateria || location.Name = "Morphing Ball" || location.Name = "Missile (blue Brinstar middle)" || location.Name = "Energy Tank, Brinstar Ceiling"))
         | Varia -> (not (location.Area = LowerNorfair || location.Area = Crateria || location.Name = "Morphing Ball" || location.Name = "Missile (blue Brinstar middle)" || location.Name = "Energy Tank, Brinstar Ceiling"))
         | SpeedBooster -> not (location.Name = "Morphing Ball" || location.Name = "Missile (blue Brinstar middle)" || location.Name = "Energy Tank, Brinstar Ceiling")
         | ScrewAttack -> not (location.Name = "Morphing Ball" || location.Name = "Missile (blue Brinstar middle)" || location.Name = "Energy Tank, Brinstar Ceiling")
@@ -447,9 +447,13 @@ module NewRandomizer =
         // by placing either Screw/Speed/Bomb or just a PB pack early.
         // One PB pack will be placed after filling with other items so that there's at least one accessible
         match rnd.Next(13) with
-        | 0 -> prefill rnd ScrewAttack &newItems &newItemLocations &newItemPool locationPool
-        | 1 -> prefill rnd SpeedBooster &newItems &newItemLocations &newItemPool locationPool
-        | 2 -> prefill rnd Bomb &newItems &newItemLocations &newItemPool locationPool
+        | 0 -> prefill rnd SpeedBooster &newItems &newItemLocations &newItemPool locationPool
+        | 1 -> prefill rnd ScrewAttack &newItems &newItemLocations &newItemPool locationPool
+        | 2 -> prefill rnd ScrewAttack &newItems &newItemLocations &newItemPool locationPool
+        | 3 -> prefill rnd Bomb &newItems &newItemLocations &newItemPool locationPool
+        | 4 -> prefill rnd Bomb &newItems &newItemLocations &newItemPool locationPool
+        | 5 -> prefill rnd Bomb &newItems &newItemLocations &newItemPool locationPool
+        | 6 -> prefill rnd Bomb &newItems &newItemLocations &newItemPool locationPool
         | _ -> prefill rnd PowerBomb &newItems &newItemLocations &newItemPool locationPool
         
         // Place a super if it's not already placed
@@ -458,9 +462,6 @@ module NewRandomizer =
 
         // Place a power bomb if it's not already placed
         if not (List.exists (fun i -> i.Type = PowerBomb) newItems) then
-            prefill rnd PowerBomb &newItems &newItemLocations &newItemPool locationPool
-            prefill rnd PowerBomb &newItems &newItemLocations &newItemPool locationPool
-        else
             prefill rnd PowerBomb &newItems &newItemLocations &newItemPool locationPool
 
         // Save the prefilled items into a new list to be used later
