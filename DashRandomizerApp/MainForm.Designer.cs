@@ -254,7 +254,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "DASH Super Metroid Randomizer! [v8]";
+         this.Text = "DASH Super Metroid Randomizer! [v9]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          this.ResumeLayout(false);

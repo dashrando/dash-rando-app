@@ -102,9 +102,10 @@ module TournamentLocations =
     let canDoSuitlessMaridia items = 
          (haveItem items HiJump && (haveItem items Ice || haveItem items SpringBall) && haveItem items Grapple)
 
-    let canDefeatBotwoon items = 
-        canAccessInnerMaridia items &&
-        (haveItem items Ice || haveItem items SpeedBooster)
+    let canDefeatBotwoon items =
+        canAccessRedBrinstar items && canUsePowerBombs items &&
+        (haveItem items Ice || haveItem items SpeedBooster) &&
+        (haveItem items Gravity || (canDoSuitlessMaridia items && haveItem items Ice))
 
     let canDefeatDraygon items = 
         canDefeatBotwoon items && haveItem items Gravity;
@@ -961,7 +962,7 @@ module TournamentLocations =
                 Class = Minor;
                 Address = 0x7C74D;
                 Visibility = Hidden;
-                Available = fun items -> canDefeatBotwoon items;
+                Available = fun items -> canDefeatDraygon items;
             };
             {
                 Area = Maridia;
@@ -969,8 +970,7 @@ module TournamentLocations =
                 Class = Major;
                 Address = 0x7C755;
                 Visibility = Visible;
-                Available = fun items -> canDefeatBotwoon items ||
-                                         (canAccessOuterMaridia items && canDoSuitlessMaridia items);
+                Available = fun items -> canDefeatBotwoon items;
             };
             {
                 Area = Maridia;
