@@ -107,8 +107,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /YQ $(ProjectDir)..\SuperMetroid.sfc $(ProjectDir)$(OutDir)
+    <PostBuildEvent>if exist $(ProjectDir)..\SuperMetroid.sfc (xcopy /YQ $(ProjectDir)..\SuperMetroid.sfc $(ProjectDir)$(OutDir))
+
 if not exist $(ProjectDir)$(OutDir)patches (mkdir $(ProjectDir)$(OutDir)patches)
+
 xcopy /YESQ $(ProjectDir)..\ItemRandomizer\patches $(ProjectDir)$(OutDir)patches</PostBuildEvent>
   </PropertyGroup>
 </Project>

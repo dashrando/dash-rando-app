@@ -153,6 +153,7 @@
          this.comboBoxRandomization.Name = "comboBoxRandomization";
          this.comboBoxRandomization.Size = new System.Drawing.Size(123, 27);
          this.comboBoxRandomization.TabIndex = 14;
+         this.comboBoxRandomization.SelectedIndexChanged += new System.EventHandler(this.comboBoxRandomization_SelectedIndexChanged);
          // 
          // label1
          // 
