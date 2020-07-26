@@ -30,6 +30,7 @@ namespace DASH
          // Populate our Game Mode and Randomization options
          comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
          comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
+         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Any, "Standard", "Vanilla", "VN"));
          comboBoxRandomization.SelectedIndex = 0;
          comboBoxGameMode.SelectedIndex = 0;
 
@@ -70,10 +71,10 @@ namespace DASH
          }
 
          // Pick the patches to apply based on the selected Game Mode and Randomization
-         var IpsPatchesToApply = Patches.IpsPatches.Where(p => (p.Difficulty == RandoDifficulty.Difficulty ||
-            p.Difficulty == Types.Difficulty.Any) && p.Default);
-         var RomPatchesToApply = Patches.RomPatches.Where(p => (p.Difficulty == RandoDifficulty.Difficulty ||
-            p.Difficulty == Types.Difficulty.Any) && p.Default);
+         var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where(p =>
+            (p.Difficulty == RandoDifficulty.Difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+         var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where(p =>
+            (p.Difficulty == RandoDifficulty.Difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
 
          // Generate the appropriate number of seeds
          for (int i = 0; i < numSeeds; i++)
@@ -81,18 +82,29 @@ namespace DASH
             // Read the vanilla ROM into memory (needs to be done each time)
             var RomData = File.ReadAllBytes(RomFile);
 
-            // Randomize the ROM
-            var Results = Randomizer.Randomize(SpecifiedSeed, RandoDifficulty.Difficulty, generateSpoiler,
-               "", RomData, ListModule.OfSeq(IpsPatchesToApply), ListModule.OfSeq(RomPatchesToApply));
+            //
+            byte[] NewRomData = null;
+            int TheSeed = 0;
 
-            // Get the results
-            int TheSeed = Results.Item1;
+            if (RandoDifficulty.Text != "Vanilla")
+               {
+               // Randomize the ROM
+               var Results = Randomizer.Randomize (SpecifiedSeed, RandoDifficulty.Difficulty, generateSpoiler,
+                  "", RomData, IpsPatchesToApply, RomPatchesToApply);
+
+               // Get the results
+               TheSeed = Results.Item1;
+               NewRomData = Results.Item2;
+               }
+            else
+               NewRomData = Patches.ApplyPatches (IpsPatchesToApply, RomPatchesToApply, RomData);
+
             string RomPath = Path.GetDirectoryName(RomFile);
             string OutputPath = Path.Combine(RomPath, RandoDifficulty.GetFileName(TheSeed));
 
             // Do not write the file to the disk in test mode
             if (!testMode)
-               File.WriteAllBytes(OutputPath, Results.Item2);
+               File.WriteAllBytes(OutputPath, NewRomData);
 
             // Only generating one seed? Show the New ROM form
             if (numSeeds == 1)
@@ -232,6 +244,26 @@ namespace DASH
       private void MainForm_Load(object sender, EventArgs e)
       {
          UpdateRomStatus();
+      }
+
+      private void comboBoxRandomization_SelectedIndexChanged (object sender, EventArgs e)
+      {
+         if (comboBoxRandomization.Text == "Vanilla")
+         {
+            radioButtonManual.Enabled = false;
+            radioButtonRandom.Enabled = false;
+            numericUpDownSeed.Enabled = false;
+         }
+         else
+         {
+            if (radioButtonManual.Checked)
+               numericUpDownSeed.Enabled = true;
+            else
+               numericUpDownSeed.Enabled = false;
+
+            radioButtonManual.Enabled = true;
+            radioButtonRandom.Enabled = true;
+         }
       }
    }
 }

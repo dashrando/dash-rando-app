@@ -25,7 +25,12 @@ namespace DASH
          NewForm.textBoxROM.Text = RomPath;
          NewForm.textBoxDifficulty.Text = RomDifficulty.Mode;
          NewForm.textBoxType.Text = RomDifficulty.Text;
-         NewForm.textBoxSeed.Text = Seed.ToString();
+
+         if (Seed > 0)
+            NewForm.textBoxSeed.Text = Seed.ToString ();
+         else
+            NewForm.textBoxSeed.Text = String.Empty;
+
          NewForm.textBoxROM.Select(0, 0);
 
          NewForm.ShowDialog();
