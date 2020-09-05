@@ -98,7 +98,7 @@
          this.comboBoxGameMode.Font = new System.Drawing.Font("Calibri", 12F);
          this.comboBoxGameMode.FormattingEnabled = true;
          this.comboBoxGameMode.Items.AddRange(new object[] {
-            "Standard"});
+            "SG Live 2020"});
          this.comboBoxGameMode.Location = new System.Drawing.Point(127, 54);
          this.comboBoxGameMode.Name = "comboBoxGameMode";
          this.comboBoxGameMode.Size = new System.Drawing.Size(123, 27);
@@ -255,7 +255,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "DASH Super Metroid Randomizer! [v9]";
+         this.Text = "DASH Super Metroid Randomizer! [SG Live 2020 Edition]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          this.ResumeLayout(false);

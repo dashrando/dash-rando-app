@@ -462,7 +462,7 @@ module NewRandomizer =
 
         // Place a power bomb if it's not already placed
         if not (List.exists (fun i -> i.Type = PowerBomb) newItems) then
-            prefill rnd PowerBomb &newItems &newItemLocations &newItemPool locationPool
+            prefill rnd PowerBomb &newItems &newItemLocations &newItemPool (List.filter (fun l -> l.Name <> "Missile (Crateria bottom)") locationPool)
 
         // Save the prefilled items into a new list to be used later
         let prefilledItems = newItems

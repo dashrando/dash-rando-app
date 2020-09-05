@@ -60,7 +60,7 @@ module Patches =
                 Name = "DASH updates by Kipp / Smiley";
                 Difficulty = Difficulty.Any;
                 Default = true;
-                FileName = "dash.ips";
+                FileName = "dash_SGL2020.ips";
                 PatchType = Standard;
             };
             // {

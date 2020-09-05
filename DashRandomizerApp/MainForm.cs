@@ -28,9 +28,10 @@ namespace DASH
          testMode = TestMode;
 
          // Populate our Game Mode and Randomization options
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Any, "Standard", "Vanilla", "VN"));
+         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "SG Live 2020", "Major / Minor", "SGL20"));
+         //comboBoxRandomization.Items.Add (new RandoDifficulty (Types.Difficulty.Tournament, "Standard", "Major / Minor", "v9_SM"));
+         //comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "v9_SF"));
+         //comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Any, "Standard", "Vanilla", "v9_VN"));
          comboBoxRandomization.SelectedIndex = 0;
          comboBoxGameMode.SelectedIndex = 0;
 

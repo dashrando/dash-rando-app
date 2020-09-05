@@ -227,5 +227,5 @@ module Items =
         |> addReserves 3     // Values below should equal 79
         |> addETanks 13
         |> addMissiles 33
-        |> addSupers 13
-        |> addPowerBombs 17
+        |> addSupers 15
+        |> addPowerBombs 15
