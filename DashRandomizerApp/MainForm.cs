@@ -27,9 +27,9 @@ namespace DASH
          testMode = TestMode;
 
          // Populate our Game Mode and Randomization options
-         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.MajorMinor, "SM"));
-         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.Full, "SF"));
-         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.Vanilla, "VN"));
+         comboBoxRandomization.Items.Add (new GameModeMajorMinor ());
+         comboBoxRandomization.Items.Add (new GameModeFull ());
+         comboBoxRandomization.Items.Add (new GameModeVanilla ());
          comboBoxRandomization.SelectedIndex = 0;
          comboBoxGameMode.SelectedIndex = 0;
 

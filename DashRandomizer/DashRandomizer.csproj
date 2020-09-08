@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameMode.cs" />
+    <Compile Include="GameModeFull.cs" />
+    <Compile Include="GameModeMajorMinor.cs" />
+    <Compile Include="GameModeVanilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
