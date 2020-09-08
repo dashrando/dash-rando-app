@@ -4,8 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using ItemRandomizer;
-using Microsoft.FSharp.Collections;
+using DashRandomizer;
 using System.Security.Cryptography;
 
 namespace DASH
@@ -28,9 +27,9 @@ namespace DASH
          testMode = TestMode;
 
          // Populate our Game Mode and Randomization options
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Tournament, "Standard", "Major / Minor", "SM"));
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Full, "Standard", "Full", "SF"));
-         comboBoxRandomization.Items.Add(new RandoDifficulty(Types.Difficulty.Any, "Standard", "Vanilla", "VN"));
+         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.MajorMinor, "SM"));
+         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.Full, "SF"));
+         comboBoxRandomization.Items.Add(new GameMode("Standard", RandoLogic.Vanilla, "VN"));
          comboBoxRandomization.SelectedIndex = 0;
          comboBoxGameMode.SelectedIndex = 0;
 
@@ -62,53 +61,34 @@ namespace DASH
          if (radioButtonManual.Checked)
             SpecifiedSeed = Convert.ToInt32(numericUpDownSeed.Value);
 
-         var RandoDifficulty = comboBoxRandomization.SelectedItem as RandoDifficulty;
+         var RandoGameMode = comboBoxRandomization.SelectedItem as GameMode;
 
-         if (RandoDifficulty == null)
+         if (RandoGameMode == null)
          {
             MessageBox.Show("Invalid difficulty selection!");
             return;
          }
 
-         // Pick the patches to apply based on the selected Game Mode and Randomization
-         var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where(p =>
-            (p.Difficulty == RandoDifficulty.Difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-         var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where(p =>
-            (p.Difficulty == RandoDifficulty.Difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+         // Read the vanilla ROM into memory (needs to be done each time)
+         var CleanRomData = File.ReadAllBytes (RomFile);
 
          // Generate the appropriate number of seeds
          for (int i = 0; i < numSeeds; i++)
          {
-            // Read the vanilla ROM into memory (needs to be done each time)
-            var RomData = File.ReadAllBytes(RomFile);
-
-            //
-            byte[] NewRomData = null;
-            int TheSeed = 0;
-
-            if (RandoDifficulty.Text != "Vanilla")
-               {
-               // Randomize the ROM
-               var Results = Randomizer.Randomize (SpecifiedSeed, RandoDifficulty.Difficulty, generateSpoiler,
-                  "", RomData, IpsPatchesToApply, RomPatchesToApply);
-
-               // Get the results
-               TheSeed = Results.Item1;
-               NewRomData = Results.Item2;
-               }
-            else
-               NewRomData = Patches.ApplyPatches (IpsPatchesToApply, RomPatchesToApply, RomData);
+            // Copy the vanilla ROM into memory (needs to be done each time)
+            var RomData = (byte[])CleanRomData.Clone ();
+            int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, RomData, generateSpoiler);
 
             string RomPath = Path.GetDirectoryName(RomFile);
-            string OutputPath = Path.Combine(RomPath, RandoDifficulty.GetFileName(TheSeed));
+            string OutputPath = Path.Combine(RomPath, RandoGameMode.GetFileName(TheSeed));
 
             // Do not write the file to the disk in test mode
             if (!testMode)
-               File.WriteAllBytes(OutputPath, NewRomData);
+               File.WriteAllBytes(OutputPath, RomData);
 
             // Only generating one seed? Show the New ROM form
             if (numSeeds == 1)
-               NewRomForm.ShowGeneratedRom(GetShortPath(Path.GetFullPath(OutputPath)), RandoDifficulty, TheSeed);
+               NewRomForm.ShowGeneratedRom(GetShortPath(Path.GetFullPath(OutputPath)), RandoGameMode, TheSeed);
          }
 
          // Generating more than one seed? Show the generic completion message

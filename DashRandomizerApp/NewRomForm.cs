@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using DashRandomizer;
 
 namespace DASH
 {
@@ -18,13 +19,13 @@ namespace DASH
          this.Close();
       }
 
-      internal static void ShowGeneratedRom(string RomPath, RandoDifficulty RomDifficulty, int Seed)
+      internal static void ShowGeneratedRom(string RomPath, GameMode RandoGameMode, int Seed)
       {
          NewRomForm NewForm = new NewRomForm();
 
          NewForm.textBoxROM.Text = RomPath;
-         NewForm.textBoxDifficulty.Text = RomDifficulty.Mode;
-         NewForm.textBoxType.Text = RomDifficulty.Text;
+         NewForm.textBoxDifficulty.Text = RandoGameMode.Mode;
+         NewForm.textBoxType.Text = RandoGameMode.ToString ();
 
          if (Seed > 0)
             NewForm.textBoxSeed.Text = Seed.ToString ();
