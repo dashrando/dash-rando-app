@@ -24,13 +24,14 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_VN_{0}.sfc", Seed);
          }
 
-      protected override IEnumerable<Types.ItemLocation> RandomizeRom (ref int Seed, byte[] RomData)
+      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler)
          {
-         var ItemLocations = new List<Types.ItemLocation> ();
+         ApplyPatches (RomData);
 
-         //TODO: Populate list with vanilla positions (I guess)
+         //TODO: Either Populate item locations in credits or remove custom credits
+         //TODO: Remove seed info from loading screen
 
-         return ItemLocations;
+         return 0;
          }
       }
    }

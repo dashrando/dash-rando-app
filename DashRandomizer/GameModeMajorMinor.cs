@@ -25,9 +25,23 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_SM_{0}.sfc", Seed);
          }
 
-      protected override IEnumerable<Types.ItemLocation> RandomizeRom (ref int Seed, byte[] RomData)
+      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler)
          {
+         var CloneData = RomData.ToArray ();
          var rnd = SetupSeed (ref Seed, RomData);
+
+         //********* Legacy Randomizer Code ***************
+
+         var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
+             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+         var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
+             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+         var Results = Randomizer.Randomize (Seed, Types.Difficulty.Tournament, false,
+            "", CloneData, IpsPatchesToApply, RomPatchesToApply);
+
+         //********* Updated Randomizer Code ***************
+
+         ApplyPatches (RomData);
 
          var TheItems = Items.addReserves (3, Items.Items);
          TheItems = Items.addETanks (13, TheItems);
@@ -35,11 +49,24 @@ namespace DashRandomizer
          TheItems = Items.addSupers (13, TheItems);
          TheItems = Items.addPowerBombs (17, TheItems);
 
-         var ItemList = new List<Types.Item> ();
-         var ItemLocationList = new List<Types.ItemLocation> ();
+         var ItemLocationList = NewRandomizer.generateItems (rnd, ListModule.Empty<Types.Item> (),
+            ListModule.Empty<Types.ItemLocation> (), TheItems, TournamentLocations.AllLocations);
 
-         return NewRandomizer.generateItems (rnd, ListModule.OfSeq (ItemList),
-            ListModule.OfSeq (ItemLocationList), TheItems, TournamentLocations.AllLocations);
+         if (GenerateSpoiler)
+            WriteSpoilerLog (Seed, ItemLocationList);
+
+         var sortedItems = ItemLocationList.Where (p => p.Item.Class == Types.ItemClass.Major &&
+            p.Item.Type != Types.ItemType.ETank && p.Item.Type != Types.ItemType.Reserve).OrderBy (p => p.Item.Type);
+
+         _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
+         _ = Randomizer.writeLocations (RomData, ItemLocationList);
+
+         //********* Compare Results ***************
+
+         if (!Results.Item2.SequenceEqual (RomData))
+            throw new Exception ("not equal");
+
+         return Seed;
          }
       }
    }

@@ -31,21 +31,6 @@ namespace DashRandomizer
          return randoText;
          }
 
-      internal int Randomize (int Seed, byte[] RomData, bool GenerateSpoiler)
-         {
-         var RandomizedItems = RandomizeRom (ref Seed, RomData);
-
-         var itemLocations = Randomizer.writeSpoiler (Seed, GenerateSpoiler, "", ListModule.OfSeq (RandomizedItems));
-         var sortedItems = itemLocations.Where (p => p.Item.Class == Types.ItemClass.Major &&
-            p.Item.Type != Types.ItemType.ETank && p.Item.Type != Types.ItemType.Reserve).OrderBy (p => p.Item.Type);
-
-         _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
-         _ = Randomizer.writeLocations (RomData, itemLocations);
-         return Seed;
-         }
-
-      protected abstract IEnumerable<Types.ItemLocation> RandomizeRom (ref int Seed, byte[] RomData);
-
       protected Random SetupSeed (ref int Seed, byte[] RomData)
          {
          if (Seed == 0)
@@ -66,13 +51,11 @@ namespace DashRandomizer
          return new Random (Seed);
          }
 
-      public int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler)
+      public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler);
+
+      internal void WriteSpoilerLog (int Seed, IEnumerable<Types.ItemLocation> ItemLocations)
          {
-         //TODO: run legacy rando code and compare outputs
-
-         ApplyPatches (RomData);
-
-         return Randomize (Seed, RomData, GenerateSpoiler);
+         _ = Randomizer.writeSpoiler (Seed, true, "", ListModule.OfSeq (ItemLocations));
          }
       }
 }
