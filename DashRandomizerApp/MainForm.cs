@@ -77,7 +77,7 @@ namespace DASH
          {
             // Copy the vanilla ROM into memory (needs to be done each time)
             var RomData = (byte[])CleanRomData.Clone ();
-            int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, RomData, generateSpoiler);
+            int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, RomData, generateSpoiler, true);
 
             string RomPath = Path.GetDirectoryName(RomFile);
             string OutputPath = Path.Combine(RomPath, RandoGameMode.GetFileName(TheSeed));

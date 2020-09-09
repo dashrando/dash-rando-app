@@ -25,19 +25,22 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_SF_{0}.sfc", Seed);
          }
 
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler)
+      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
          var CloneData = RomData.ToArray ();
          var rnd = SetupSeed (ref Seed, RomData);
 
          //********* Legacy Randomizer Code ***************
 
-         var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-         var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-         var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,
-            "", CloneData, IpsPatchesToApply, RomPatchesToApply);
+         if (Verify)
+            {
+            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
+                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
+                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,
+               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
+            }
 
          //********* Updated Randomizer Code ***************
 
@@ -63,7 +66,7 @@ namespace DashRandomizer
 
          //********* Compare Results ***************
 
-         if (!Results.Item2.SequenceEqual (RomData))
+         if (Verify && !CloneData.SequenceEqual (RomData))
             throw new Exception ("not equal");
 
          return Seed;

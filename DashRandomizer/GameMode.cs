@@ -51,7 +51,7 @@ namespace DashRandomizer
          return new Random (Seed);
          }
 
-      public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler);
+      public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify);
 
       internal void WriteSpoilerLog (int Seed, IEnumerable<Types.ItemLocation> ItemLocations)
          {

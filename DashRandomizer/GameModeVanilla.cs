@@ -24,7 +24,7 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_VN_{0}.sfc", Seed);
          }
 
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler)
+      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
          ApplyPatches (RomData);
 
