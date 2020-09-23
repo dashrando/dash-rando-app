@@ -81,7 +81,7 @@ namespace DashRandomizer
             //********* Compare Results ***************
 
             if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               throw new Exception ("not equal");
+               return -2;
             }
 
          return Seed;

@@ -16,13 +16,14 @@ namespace DASH
          GameMode ConsoleGameMode = null;
          string VanillaRomPath = String.Empty;
          int SpecifiedSeed = 0;
-         bool Quiet = false, TestMode = false, Verify = false;
+         bool TestMode = false, Verify = false;
+         Action<string> Log = p => MessageBox.Show (p);
 
          for (int i = 0; i < args.Length; i++)
             {
             if (args[i] == "-q")
                {
-               Quiet = true;
+               Log = p => String.IsNullOrEmpty (p);
                continue;
                }
 
@@ -92,23 +93,32 @@ namespace DASH
                byte[] RomBytes = File.ReadAllBytes (VanillaRomPath);
                int Seed = ConsoleGameMode.UpdateRom (SpecifiedSeed, RomBytes, false, Verify);
 
-               if (Seed < 0)
+               if (Verify && Seed == -2)
                   {
-                  if (!Quiet)
-                     MessageBox.Show ("error");
+                  Log ("Verification failed.");
+                  Environment.ExitCode = 2;
+                  }
+               else if (Seed < 0)
+                  {
+                  Log ("Failed to generate seed.");
+                  Environment.ExitCode = 3;
                   }
                else
                   {
                   File.WriteAllBytes (ConsoleGameMode.GetFileName (Seed), RomBytes);
 
-                  if (!Quiet)
-                     MessageBox.Show (String.Format ("Seed {0} generated", Seed));
+                  if (Verify)
+                     Log (String.Format ("Verified seed {0} generated.", Seed));
+                  else
+                     Log (String.Format ("Seed {0} generated.", Seed));
                   }
 
                return;
                }
 
-            MessageBox.Show ("invalid console arguments");
+            Log ("Invalid command line arguments.");
+            Environment.ExitCode = 1;
+            return;
             }
 
          Application.EnableVisualStyles();
