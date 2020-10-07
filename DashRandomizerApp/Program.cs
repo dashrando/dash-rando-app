@@ -23,7 +23,7 @@ namespace DASH
             {
             if (args[i] == "-q")
                {
-               Log = p => String.IsNullOrEmpty (p);
+               Log = p => {};
                continue;
                }
 
@@ -90,7 +90,10 @@ namespace DASH
 
             if (!String.IsNullOrEmpty (VanillaRomPath))
                {
-               byte[] RomBytes = File.ReadAllBytes (VanillaRomPath);
+               // Read the vanilla ROM into memory
+               var RomBytes = File.ReadAllBytes (VanillaRomPath);
+
+               // Update the ROM based on the game mode
                int Seed = ConsoleGameMode.UpdateRom (SpecifiedSeed, RomBytes, false, Verify);
 
                if (Verify && Seed == -2)

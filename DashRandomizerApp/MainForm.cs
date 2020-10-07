@@ -38,11 +38,10 @@ namespace DASH
 
       private void btnRandomize_Click (object sender, EventArgs e)
          {
-         var RomFile = romPath;
-
-         if (!File.Exists (RomFile))
+         if (!File.Exists (romPath))
             {
-            MessageBox.Show ("The specified Vanilla ROM does not exist!");
+            MessageBox.Show ("DASH", "The specified Vanilla ROM does not exist!",
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
             }
 
@@ -55,18 +54,28 @@ namespace DASH
 
          if (RandoGameMode == null)
             {
-            MessageBox.Show ("Invalid difficulty selection!");
+            MessageBox.Show ("DASH", "Invalid randomization selection!", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             return;
             }
 
          // Read the vanilla ROM into memory
+         var RomData = File.ReadAllBytes (romPath);
 
-         var RomData = File.ReadAllBytes (RomFile);
+         // Update the ROM based on the game mode
          int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, RomData, generateSpoiler, false);
 
+         // No seed generated?
+         if (TheSeed < 0)
+            {
+            MessageBox.Show ("DASH", "Failed to generate seed.", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            return;
+            }
+
          // Generate the path based on the game mode and seed
-         string RomPath = Path.GetDirectoryName (RomFile);
-         string OutputPath = Path.Combine (RomPath, RandoGameMode.GetFileName (TheSeed));
+         string RomDir = Path.GetDirectoryName (romPath);
+         string OutputPath = Path.Combine (RomDir, RandoGameMode.GetFileName (TheSeed));
 
          // Write the updated rom to the disk
          File.WriteAllBytes (OutputPath, RomData);
