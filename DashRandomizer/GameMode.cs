@@ -10,10 +10,15 @@ namespace DashRandomizer
 {
     public abstract class GameMode
     {
-      protected string randoText;
       protected Types.Difficulty difficulty;
 
+      protected virtual string DashPatchName
+         {
+         get { return "dash_v9.ips"; }
+         }
+
       public abstract string Mode { get; }
+      public abstract string Randomization { get; }
 
       internal void ApplyPatches (byte[] RomData)
          {
@@ -25,7 +30,8 @@ namespace DashRandomizer
          Directory.SetCurrentDirectory (assemblyPath);
 
          var IpsPatchesToApply = Patches.IpsPatches.Where (p =>
-             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default);
+             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
+             p.Default).Concat (new[] { GetDashPatch () });
          var RomPatchesToApply = Patches.RomPatches.Where (p =>
              (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default);
 
@@ -35,11 +41,17 @@ namespace DashRandomizer
          Directory.SetCurrentDirectory (CurrentDirectory);
          }
 
+      internal Types.IpsPatch GetDashPatch ()
+         {
+         return new Types.IpsPatch ("DASH", DashPatchName, Types.Difficulty.Any,
+            Types.PatchType.Standard, true);
+         }
+
       public abstract string GetFileName (int Seed);
 
       public override string ToString ()
          {
-         return randoText;
+         return Mode + " - " + Randomization;
          }
 
       protected Random SetupSeed (ref int Seed, byte[] RomData)

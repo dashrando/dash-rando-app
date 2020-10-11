@@ -23,11 +23,11 @@ namespace DASH
          generateSpoiler = GenerateSpoiler;
 
          // Populate our Game Mode and Randomization options
+         comboBoxRandomization.Items.Add (new GameModeSGL20 ());
          comboBoxRandomization.Items.Add (new GameModeMajorMinor ());
          comboBoxRandomization.Items.Add (new GameModeFull ());
-         comboBoxRandomization.Items.Add (new GameModeVanilla ());
+         //comboBoxRandomization.Items.Add (new GameModeVanilla ());
          comboBoxRandomization.SelectedIndex = 0;
-         comboBoxGameMode.SelectedIndex = 0;
 
          // Clear the Seed field since we default to automatically generate a seed
          numericUpDownSeed.Controls[1].Text = "";

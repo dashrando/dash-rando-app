@@ -16,10 +16,14 @@ namespace DashRandomizer
          get { return "Standard"; }
          }
 
+      public override string Randomization
+         {
+         get { return "Full"; }
+         }
+
       public GameModeFull ()
          {
          difficulty = Types.Difficulty.Full;
-         randoText = "Full";
          }
 
       public override string GetFileName (int Seed)
@@ -45,7 +49,8 @@ namespace DashRandomizer
             Directory.SetCurrentDirectory (assemblyPath);
 
             var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
+                p.Default).Concat (new[] { GetDashPatch () }));
             var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
                 (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
             var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,

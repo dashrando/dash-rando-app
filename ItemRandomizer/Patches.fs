@@ -56,13 +56,6 @@ module Patches =
                 FileName = "max_ammo_display.ips";
                 PatchType = Standard;
             };
-            {
-                Name = "DASH updates by Kipp / Smiley";
-                Difficulty = Difficulty.Any;
-                Default = true;
-                FileName = "dash_SGL2020.ips";
-                PatchType = Standard;
-            };
             // {
             //     Name = "SPC Credits Song";
             //     Difficulty = Difficulty.Any;

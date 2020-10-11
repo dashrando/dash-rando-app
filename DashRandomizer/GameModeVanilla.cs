@@ -13,10 +13,14 @@ namespace DashRandomizer
          get { return "Standard"; }
          }
 
+      public override string Randomization
+         {
+         get { return "Vanilla"; }
+         }
+
       public GameModeVanilla ()
          {
          difficulty = 0;
-         randoText = "Vanilla";
          }
 
       public override string GetFileName (int Seed)

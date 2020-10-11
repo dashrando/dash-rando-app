@@ -9,11 +9,16 @@ using ItemRandomizer;
 
 namespace DashRandomizer
    {
-   public class GameModeMajorMinor : GameMode
+   public class GameModeSGL20 : GameMode
       {
+      protected override string DashPatchName
+         {
+         get { return "dash_SGL2020.ips"; }
+         }
+
       public override string Mode
          {
-         get { return "Standard"; }
+         get { return "SG Live 2020"; }
          }
 
       public override string Randomization
@@ -21,53 +26,27 @@ namespace DashRandomizer
          get { return "Major / Minor"; }
          }
 
-      public GameModeMajorMinor ()
+      public GameModeSGL20 ()
          {
          difficulty = Types.Difficulty.Tournament;
          }
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_v9_SM_{0}.sfc", Seed);
+         return string.Format ("DASH_SGL20_{0}.sfc", Seed);
          }
 
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
-         byte[] CloneData = null;
-
-         if (Verify && RomData != null)
-            CloneData = RomData.ToArray ();
-
          var rnd = SetupSeed (ref Seed, RomData);
-
-         //********* Legacy Randomizer Code ***************
-
-         if (Verify)
-            {
-            var CurrentDirectory = Directory.GetCurrentDirectory ();
-            string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-            Directory.SetCurrentDirectory (assemblyPath);
-
-            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-                p.Default).Concat (new[] { GetDashPatch () }));
-            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Tournament, false,
-               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
-
-            Directory.SetCurrentDirectory (CurrentDirectory);
-            }
-
-         //********* Updated Randomizer Code ***************
 
          ApplyPatches (RomData);
 
          var TheItems = Items.addReserves (3, Items.Items);
          TheItems = Items.addETanks (13, TheItems);
          TheItems = Items.addMissiles (33, TheItems);
-         TheItems = Items.addSupers (13, TheItems);
-         TheItems = Items.addPowerBombs (17, TheItems);
+         TheItems = Items.addSupers (15, TheItems);
+         TheItems = Items.addPowerBombs (15, TheItems);
 
          var ItemLocationList = NewRandomizer.generateItems (rnd, ListModule.Empty<Types.Item> (),
             ListModule.Empty<Types.ItemLocation> (), TheItems, TournamentLocations.AllLocations);
@@ -82,11 +61,6 @@ namespace DashRandomizer
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
             _ = Randomizer.writeLocations (RomData, ItemLocationList);
-
-            //********* Compare Results ***************
-
-            if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               return -2;
             }
 
          return Seed;
