@@ -79,6 +79,26 @@ namespace DashRandomizer
 
       public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify);
 
+      internal void WriteProgressionLog (int Seed, IEnumerable<Types.ItemLocation> ItemLocations)
+         {
+         if (!Directory.Exists ("logs"))
+            Directory.CreateDirectory ("logs");
+
+         string Output = String.Empty;
+
+         var FirstPB = ItemLocations.LastOrDefault (p => p.Item.Type == Types.ItemType.PowerBomb);
+
+         if (FirstPB != null)
+            Output += String.Format ("Power Bomb -> {0}{1}", FirstPB.Location.Name, Environment.NewLine);
+
+         var FirstSuper = ItemLocations.LastOrDefault (p => p.Item.Type == Types.ItemType.Super);
+
+         if (FirstSuper != null)
+            Output += String.Format ("Super Missile -> {0}{1}", FirstSuper.Location.Name, Environment.NewLine);
+
+         File.WriteAllText (Path.Combine ("logs", String.Format ("{0}.progression.txt", Seed)), Output);
+         }
+
       internal void WriteSpoilerLog (int Seed, IEnumerable<Types.ItemLocation> ItemLocations)
          {
          if (!Directory.Exists ("logs"))
