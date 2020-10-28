@@ -739,8 +739,7 @@ module TournamentLocations =
                 Available = fun items -> canAccessLowerNorfair items &&
                                          (canFly items ||
                                           haveItem items SpringBall ||
-                                          haveItem items SpeedBooster ||
-                                          haveItem items HiJump);
+                                          haveItem items SpeedBooster);
             };
             {
                 Area = LowerNorfair;
