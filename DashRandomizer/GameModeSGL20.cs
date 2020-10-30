@@ -36,6 +36,14 @@ namespace DashRandomizer
          return string.Format ("DASH_SGL20_{0}.sfc", Seed);
          }
 
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_SGL20_Practice_SaveStates.sfc";
+
+         return "DASH_SGL20_Practice_NoSaveStates.sfc";
+         }
+
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
          var rnd = SetupSeed (ref Seed, RomData);

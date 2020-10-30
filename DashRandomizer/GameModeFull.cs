@@ -31,6 +31,14 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_SF_{0}.sfc", Seed);
          }
 
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_v9_SF_Practice_SaveStates.sfc";
+
+         return "DASH_v9_SF_Practice_NoSaveStates.sfc";
+         }
+
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
          byte[] CloneData = null;

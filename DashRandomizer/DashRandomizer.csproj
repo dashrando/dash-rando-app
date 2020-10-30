@@ -45,6 +45,7 @@
     <Compile Include="GameModeMajorMinor.cs" />
     <Compile Include="GameModeSGL20.cs" />
     <Compile Include="GameModeVanilla.cs" />
+    <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

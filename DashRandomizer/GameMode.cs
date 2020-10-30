@@ -47,7 +47,15 @@ namespace DashRandomizer
             Types.PatchType.Standard, true);
          }
 
+      Types.IpsPatch GetPatch (string FileName)
+         {
+         return new Types.IpsPatch (FileName, FileName, Types.Difficulty.Any,
+            Types.PatchType.Standard, true);
+         }
+
       public abstract string GetFileName (int Seed);
+
+      public abstract string GetPracticeName (bool SaveStates);
 
       internal string GetLocationString (Types.Location TheLocation)
          {
@@ -92,6 +100,35 @@ namespace DashRandomizer
       public override string ToString ()
          {
          return Mode + " - " + Randomization;
+         }
+
+      public string PatchForPractice (string VanillaRom, bool Emulator)
+         {
+         // *************************
+
+         string OutputFileName = Path.Combine (Path.GetDirectoryName (VanillaRom),
+            GetPracticeName (!Emulator));
+         File.Copy (VanillaRom, OutputFileName, true);
+
+         // *************************
+
+         Patch.Apply ("common_rando_patches.ips", OutputFileName);
+         Patch.Apply ("max_ammo_display.ips", OutputFileName);
+         Patch.Apply ("dachora.ips", OutputFileName);
+         Patch.Apply ("early_super_bridge.ips", OutputFileName);
+         Patch.Apply ("high_jump.ips", OutputFileName);
+         Patch.Apply ("moat.ips", OutputFileName);
+         Patch.Apply ("nova_boost_platform.ips", OutputFileName);
+         Patch.Apply ("red_tower.ips", OutputFileName);
+         Patch.Apply ("spazer.ips", OutputFileName);
+         Patch.Apply (DashPatchName, OutputFileName);
+
+         if (Emulator)
+            Patch.Apply ("smhack21_b2_no_savestates.bps", OutputFileName);
+         else
+            Patch.Apply ("smhack21_b2_savestates.bps", OutputFileName);
+
+         return OutputFileName;
          }
 
       protected Random SetupSeed (ref int Seed, byte[] RomData)

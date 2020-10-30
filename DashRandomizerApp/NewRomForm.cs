@@ -9,10 +9,21 @@ namespace DASH
 {
    public partial class NewRomForm : Form
    {
-      private NewRomForm()
+      private NewRomForm(string Title, string RomPath, string Difficulty,
+         string ModeType, string SeedString)
       {
          InitializeComponent();
-      }
+
+         if (!String.IsNullOrEmpty (Title))
+            this.Text = Title;
+
+         textBoxROM.Text = RomPath;
+         textBoxDifficulty.Text = Difficulty;
+         textBoxType.Text = ModeType;
+         textBoxSeed.Text = SeedString;
+
+         textBoxROM.Select (0, 0);
+         }
 
       private void btnClose_Click(object sender, EventArgs e)
       {
@@ -21,21 +32,24 @@ namespace DASH
 
       internal static void ShowGeneratedRom(string RomPath, GameMode RandoGameMode, int Seed)
       {
-         NewRomForm NewForm = new NewRomForm();
-
-         NewForm.textBoxROM.Text = RomPath;
-         NewForm.textBoxDifficulty.Text = RandoGameMode.Mode;
-         NewForm.textBoxType.Text = RandoGameMode.ToString ();
+         string SeedString = String.Empty;
 
          if (Seed > 0)
-            NewForm.textBoxSeed.Text = Seed.ToString ();
-         else
-            NewForm.textBoxSeed.Text = String.Empty;
+            SeedString = Seed.ToString ();
 
-         NewForm.textBoxROM.Select(0, 0);
+         NewRomForm NewForm = new NewRomForm(null, RomPath, RandoGameMode.Mode,
+            RandoGameMode.Randomization, SeedString);
 
          NewForm.ShowDialog();
       }
+
+      internal static void ShowPracRom (string RomPath, GameMode RandoGameMode)
+         {
+         NewRomForm NewForm = new NewRomForm ("Practice Hack Generated!", RomPath,
+            RandoGameMode.Mode, "N/A", "N/A");
+
+         NewForm.ShowDialog ();
+         }
 
       private void btnOpenFolder_Click(object sender, EventArgs e)
       {
