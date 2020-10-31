@@ -44,9 +44,9 @@
          this.radioButtonManual = new System.Windows.Forms.RadioButton();
          this.labelRomStatus = new System.Windows.Forms.Label();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+         this.btnPrac = new System.Windows.Forms.Button();
          this.label1 = new System.Windows.Forms.Label();
          this.pictureBox1 = new System.Windows.Forms.PictureBox();
-         this.btnPrac = new System.Windows.Forms.Button();
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
          this.SuspendLayout();
@@ -212,6 +212,18 @@
          this.labelRomStatus.Text = "Missing";
          this.labelRomStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
          // 
+         // btnPrac
+         // 
+         this.btnPrac.AutoSize = true;
+         this.btnPrac.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.btnPrac.Image = ((System.Drawing.Image)(resources.GetObject("btnPrac.Image")));
+         this.btnPrac.Location = new System.Drawing.Point(349, 53);
+         this.btnPrac.Name = "btnPrac";
+         this.btnPrac.Size = new System.Drawing.Size(34, 29);
+         this.btnPrac.TabIndex = 18;
+         this.toolTip1.SetToolTip(this.btnPrac, "Generate Practice Hack");
+         this.btnPrac.Click += new System.EventHandler(this.btnPrac_Click);
+         // 
          // label1
          // 
          this.label1.AutoSize = true;
@@ -231,18 +243,6 @@
          this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
          this.pictureBox1.TabIndex = 17;
          this.pictureBox1.TabStop = false;
-         // 
-         // btnPrac
-         // 
-         this.btnPrac.AutoSize = true;
-         this.btnPrac.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.btnPrac.Image = ((System.Drawing.Image)(resources.GetObject("btnPrac.Image")));
-         this.btnPrac.Location = new System.Drawing.Point(349, 53);
-         this.btnPrac.Name = "btnPrac";
-         this.btnPrac.Size = new System.Drawing.Size(34, 29);
-         this.btnPrac.TabIndex = 18;
-         this.toolTip1.SetToolTip(this.btnPrac, "Generate Practice Hack");
-         this.btnPrac.Click += new System.EventHandler(this.btnPrac_Click);
          // 
          // MainForm
          // 
@@ -272,7 +272,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "DASH Super Metroid Randomizer! [SG Live 2020 Edition]";
+         this.Text = "DASH Super Metroid Randomizer! [SG Live 2020 Tournament Edition]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
