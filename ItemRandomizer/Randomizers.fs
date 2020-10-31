@@ -486,11 +486,43 @@ module NewRandomizer =
 
         // Place the rest of progression items randomly
         let (progressItems, progressItemLocations, progressItemPool) = generateAssumedItems prefilledItems newItems newItemLocations shuffledItems weightedLocations
-        
+
         // All progression items are placed and every other location in the game should now be accessible
         // so place the rest of the items randomly using the regular placement method
         generateMoreItems rnd progressItems progressItemLocations progressItemPool locationPool
-        
+
+    let generateItemsWithoutPrefill (rnd:Random) (items:Item list) (itemLocations:ItemLocation list) (itemPool:Item list) (locationPool:Location list) =
+        let mutable newItems = items
+        let mutable newItemLocations = itemLocations
+        let mutable newItemPool = itemPool
+
+        // Save the prefilled items into a new list to be used later
+        let prefilledItems = newItems
+
+        // Shuffle the locations randomly, then adjust the order slightly based on weighting per area
+        let mutable shuffledLocations = List.toArray (List.filter (fun l -> l.Class = Major) locationPool)
+        shuffle rnd shuffledLocations
+        let weightedLocations = getWeightedLocations (Array.toList shuffledLocations) 100 Map.empty
+
+        // Shuffle the item pool
+        let mutable shuffledItemsArr = List.toArray newItemPool
+        shuffle rnd shuffledItemsArr
+        let shuffledItems = Array.toList shuffledItemsArr
+
+        // Always start with placing a suit (this helps getting maximum spread of suit locations)
+        let firstItem = match rnd.Next(2) with
+                        | 0 -> List.find (fun i -> i.Type = Varia) shuffledItems
+                        | _ -> List.find (fun i -> i.Type = Gravity) shuffledItems
+
+        let shuffledItems = firstItem :: List.filter (fun i -> i.Type <> firstItem.Type) shuffledItems
+
+        // Place the rest of progression items randomly
+        let (progressItems, progressItemLocations, progressItemPool) = generateAssumedItems prefilledItems newItems newItemLocations shuffledItems weightedLocations
+
+        // All progression items are placed and every other location in the game should now be accessible
+        // so place the rest of the items randomly using the regular placement method
+        generateMoreItems rnd progressItems progressItemLocations progressItemPool locationPool
+
 module FullRandomizer =
     open Types
     open System

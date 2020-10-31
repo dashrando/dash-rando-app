@@ -16,15 +16,27 @@ namespace DashRandomizer
          get { return "Standard"; }
          }
 
+      public override string Randomization
+         {
+         get { return "Full"; }
+         }
+
       public GameModeFull ()
          {
          difficulty = Types.Difficulty.Full;
-         randoText = "Full";
          }
 
       public override string GetFileName (int Seed)
          {
          return string.Format ("DASH_v9_SF_{0}.sfc", Seed);
+         }
+
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_v9_SF_Practice_SaveStates.sfc";
+
+         return "DASH_v9_SF_Practice_NoSaveStates.sfc";
          }
 
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
@@ -45,7 +57,8 @@ namespace DashRandomizer
             Directory.SetCurrentDirectory (assemblyPath);
 
             var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
+                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
+                p.Default).Concat (new[] { GetDashPatch () }));
             var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
                 (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
             var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,

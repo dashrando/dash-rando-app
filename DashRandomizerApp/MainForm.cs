@@ -23,11 +23,11 @@ namespace DASH
          generateSpoiler = GenerateSpoiler;
 
          // Populate our Game Mode and Randomization options
+         comboBoxRandomization.Items.Add (new GameModeSGL20 ());
          comboBoxRandomization.Items.Add (new GameModeMajorMinor ());
-         comboBoxRandomization.Items.Add (new GameModeFull ());
-         comboBoxRandomization.Items.Add (new GameModeVanilla ());
+         //comboBoxRandomization.Items.Add (new GameModeFull ());
+         //comboBoxRandomization.Items.Add (new GameModeVanilla ());
          comboBoxRandomization.SelectedIndex = 0;
-         comboBoxGameMode.SelectedIndex = 0;
 
          // Clear the Seed field since we default to automatically generate a seed
          numericUpDownSeed.Controls[1].Text = "";
@@ -232,6 +232,20 @@ namespace DASH
             radioButtonManual.Enabled = true;
             radioButtonRandom.Enabled = true;
             }
+         }
+
+      private void btnPrac_Click (object sender, EventArgs e)
+         {
+         var RandoGameMode = comboBoxRandomization.SelectedItem as GameMode;
+
+         if (RandoGameMode == null)
+            {
+            MessageBox.Show ("DASH", "Invalid game mode selection!", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            return;
+            }
+
+         PracRomForm.ShowPracHackForm (RandoGameMode, romPath);
          }
       }
    }

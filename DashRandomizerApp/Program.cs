@@ -70,6 +70,10 @@ namespace DASH
                      ConsoleGameMode = new GameModeFull ();
                      break;
 
+                  case "sgl20":
+                     ConsoleGameMode = new GameModeSGL20 ();
+                     break;
+
                   case "vanilla":
                      ConsoleGameMode = new GameModeVanilla ();
                      break;

@@ -9,11 +9,16 @@ using ItemRandomizer;
 
 namespace DashRandomizer
    {
-   public class GameModeMajorMinor : GameMode
+   public class GameModeSGL20 : GameMode
       {
+      protected override string DashPatchName
+         {
+         get { return "dash_SGL2020.ips"; }
+         }
+
       public override string Mode
          {
-         get { return "Standard"; }
+         get { return "SG Live 2020"; }
          }
 
       public override string Randomization
@@ -21,61 +26,35 @@ namespace DashRandomizer
          get { return "Major / Minor"; }
          }
 
-      public GameModeMajorMinor ()
+      public GameModeSGL20 ()
          {
          difficulty = Types.Difficulty.Tournament;
          }
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_v9_SM_{0}.sfc", Seed);
+         return string.Format ("DASH_SGL20_{0}.sfc", Seed);
          }
 
       public override string GetPracticeName (bool SaveStates)
          {
          if (SaveStates)
-            return "DASH_v9_SM_Practice_SaveStates.sfc";
+            return "DASH_SGL20_Practice_SaveStates.sfc";
 
-         return "DASH_v9_SM_Practice_NoSaveStates.sfc";
+         return "DASH_SGL20_Practice_NoSaveStates.sfc";
          }
 
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
          {
-         byte[] CloneData = null;
-
-         if (Verify && RomData != null)
-            CloneData = RomData.ToArray ();
-
          var rnd = SetupSeed (ref Seed, RomData);
-
-         //********* Legacy Randomizer Code ***************
-
-         if (Verify)
-            {
-            var CurrentDirectory = Directory.GetCurrentDirectory ();
-            string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-            Directory.SetCurrentDirectory (assemblyPath);
-
-            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-                p.Default).Concat (new[] { GetDashPatch () }));
-            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Tournament, false,
-               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
-
-            Directory.SetCurrentDirectory (CurrentDirectory);
-            }
-
-         //********* Updated Randomizer Code ***************
 
          ApplyPatches (RomData);
 
          var ItemPool = Items.addReserves (3, Items.Items);
          ItemPool = Items.addETanks (13, ItemPool);
          ItemPool = Items.addMissiles (33, ItemPool);
-         ItemPool = Items.addSupers (13, ItemPool);
-         ItemPool = Items.addPowerBombs (17, ItemPool);
+         ItemPool = Items.addSupers (15, ItemPool);
+         ItemPool = Items.addPowerBombs (15, ItemPool);
 
          var NewItems = ListModule.Empty<Types.Item> ();
          var ItemLocations = ListModule.Empty<Types.ItemLocation> ();
@@ -125,8 +104,10 @@ namespace DashRandomizer
          // Place a power bomb if it's not already placed
          if (NewItems.Count (p => p.Type == Types.ItemType.PowerBomb) < 1)
             {
+            var ModifiedLocations = TournamentLocations.AllLocations.Where (p =>
+               p.Name != "Missile (Crateria bottom)");
             NewRandomizer.prefill (rnd, Types.ItemType.PowerBomb, ref NewItems, ref ItemLocations,
-               ref ItemPool, TournamentLocations.AllLocations);
+               ref ItemPool, ListModule.OfSeq (ModifiedLocations));
             }
 
          var ItemLocationList = NewRandomizer.generateItemsWithoutPrefill (rnd, NewItems,
@@ -145,11 +126,6 @@ namespace DashRandomizer
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
             _ = Randomizer.writeLocations (RomData, ItemLocationList);
-
-            //********* Compare Results ***************
-
-            if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               return -2;
             }
 
          return Seed;

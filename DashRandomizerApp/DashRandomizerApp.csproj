@@ -13,6 +13,21 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,6 +72,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PracRomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PracRomForm.Designer.cs">
+      <DependentUpon>PracRomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewRomForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +88,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PracRomForm.resx">
+      <DependentUpon>PracRomForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewRomForm.resx">
       <DependentUpon>NewRomForm.cs</DependentUpon>
@@ -108,12 +132,21 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if exist $(ProjectDir)..\SuperMetroid.sfc (xcopy /YQ $(ProjectDir)..\SuperMetroid.sfc $(ProjectDir)$(OutDir))
 
 if not exist $(ProjectDir)$(OutDir)patches (mkdir $(ProjectDir)$(OutDir)patches)
 
-xcopy /YESQ $(ProjectDir)..\ItemRandomizer\patches $(ProjectDir)$(OutDir)patches</PostBuildEvent>
+xcopy /YQ $(ProjectDir)..\ItemRandomizer\patches $(ProjectDir)$(OutDir)patches
+
+xcopy /YQ $(ProjectDir)..\DashRandomizer\patches $(ProjectDir)$(OutDir)patches</PostBuildEvent>
   </PropertyGroup>
 </Project>
