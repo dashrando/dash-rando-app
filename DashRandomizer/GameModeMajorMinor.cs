@@ -31,45 +31,9 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_SM_{0}.sfc", Seed);
          }
 
-      public override string GetPracticeName (bool SaveStates)
+      public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
          {
-         if (SaveStates)
-            return "DASH_v9_SM_Practice_SaveStates.sfc";
-
-         return "DASH_v9_SM_Practice_NoSaveStates.sfc";
-         }
-
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
-         {
-         byte[] CloneData = null;
-
-         if (Verify && RomData != null)
-            CloneData = RomData.ToArray ();
-
-         var rnd = SetupSeed (ref Seed, RomData);
-
-         //********* Legacy Randomizer Code ***************
-
-         if (Verify)
-            {
-            var CurrentDirectory = Directory.GetCurrentDirectory ();
-            string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-            Directory.SetCurrentDirectory (assemblyPath);
-
-            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-                p.Default).Concat (new[] { GetDashPatch () }));
-            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Tournament, false,
-               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
-
-            Directory.SetCurrentDirectory (CurrentDirectory);
-            }
-
-         //********* Updated Randomizer Code ***************
-
-         ApplyPatches (RomData);
+         var rnd = new Random (Seed);
 
          var ItemPool = Items.addReserves (3, Items.Items);
          ItemPool = Items.addETanks (13, ItemPool);
@@ -129,8 +93,25 @@ namespace DashRandomizer
                ref ItemPool, TournamentLocations.AllLocations);
             }
 
-         var ItemLocationList = NewRandomizer.generateItemsWithoutPrefill (rnd, NewItems,
+         return NewRandomizer.generateItemsWithoutPrefill (rnd, NewItems,
             ItemLocations, ItemPool, TournamentLocations.AllLocations);
+         }
+
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_v9_SM_Practice_SaveStates.sfc";
+
+         return "DASH_v9_SM_Practice_NoSaveStates.sfc";
+         }
+
+      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
+         {
+         SetupSeed (ref Seed, RomData);
+
+         ApplyPatches (RomData);
+
+         var ItemLocationList = GetItemLocations (Seed);
 
          if (GenerateSpoiler)
             {
@@ -144,12 +125,7 @@ namespace DashRandomizer
                p.Item.Type != Types.ItemType.ETank && p.Item.Type != Types.ItemType.Reserve).OrderBy (p => p.Item.Type);
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
-            _ = Randomizer.writeLocations (RomData, ItemLocationList);
-
-            //********* Compare Results ***************
-
-            if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               return -2;
+            _ = Randomizer.writeLocations (RomData, ListModule.OfSeq (ItemLocationList));
             }
 
          return Seed;

@@ -88,7 +88,8 @@ namespace DASH
             {
             if (TestMode)
                {
-               _ = ConsoleGameMode.UpdateRom (SpecifiedSeed, null, true, false);
+               // Generate logs only
+               ConsoleGameMode.TestRom (SpecifiedSeed);
                return;
                }
 

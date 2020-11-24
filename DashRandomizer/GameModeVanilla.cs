@@ -28,6 +28,11 @@ namespace DashRandomizer
          return string.Format ("DASH_v9_VN_{0}.sfc", Seed);
          }
 
+      public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
+         {
+         return null;
+         }
+
       public override string GetPracticeName (bool SaveStates)
          {
          if (SaveStates)

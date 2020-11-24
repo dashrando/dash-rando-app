@@ -55,6 +55,8 @@ namespace DashRandomizer
 
       public abstract string GetFileName (int Seed);
 
+      public abstract IEnumerable<Types.ItemLocation> GetItemLocations (int Seed);
+
       public abstract string GetPracticeName (bool SaveStates);
 
       internal string GetLocationString (Types.Location TheLocation)
@@ -131,27 +133,36 @@ namespace DashRandomizer
          return OutputFileName;
          }
 
-      protected Random SetupSeed (ref int Seed, byte[] RomData)
+      public void SetupSeed (ref int Seed, byte[] RomData, int Index = 0x2FFF00)
          {
          if (Seed == 0)
             Seed = new Random ().Next (1000000, 9999999);
 
-         if (RomData != null)
-            {
-            var rnd = new Random (Seed);
+         if (RomData == null)
+            return;
 
-            var seedInfo = rnd.Next (0xFFFF);
-            var seedInfo2 = rnd.Next (0xFFFF);
-            var seedInfoArr = Items.toByteArray (seedInfo);
-            var seedInfoArr2 = Items.toByteArray (seedInfo2);
+         var rnd = new Random (Seed);
 
-            RomData[0x2FFF00] = seedInfoArr[0];
-            RomData[0x2FFF01] = seedInfoArr[1];
-            RomData[0x2FFF02] = seedInfoArr2[0];
-            RomData[0x2FFF03] = seedInfoArr2[1];
-            }
+         var seedInfo = rnd.Next (0xFFFF);
+         var seedInfo2 = rnd.Next (0xFFFF);
+         var seedInfoArr = Items.toByteArray (seedInfo);
+         var seedInfoArr2 = Items.toByteArray (seedInfo2);
 
-         return new Random (Seed);
+         RomData[Index] = seedInfoArr[0];
+         RomData[Index + 1] = seedInfoArr[1];
+         RomData[Index + 2] = seedInfoArr2[0];
+         RomData[Index + 3] = seedInfoArr2[1];
+         }
+
+      public void TestRom (int Seed)
+         {
+         var ItemLocations = GetItemLocations (Seed);
+
+         if (ItemLocations == null)
+            return;
+
+         WriteProgressionLog (Seed, ItemLocations);
+         WriteSpoilerLog (Seed, ItemLocations);
          }
 
       public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify);
