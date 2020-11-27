@@ -28,7 +28,7 @@ namespace DashRandomizer
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_v9_SF_{0}.sfc", Seed);
+         return string.Format ("DASH_v10_SF_{0:D5}.sfc", Seed);
          }
 
       public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
@@ -51,9 +51,9 @@ namespace DashRandomizer
       public override string GetPracticeName (bool SaveStates)
          {
          if (SaveStates)
-            return "DASH_v9_SF_Practice_SaveStates.sfc";
+            return "DASH_v10_SF_Practice_SaveStates.sfc";
 
-         return "DASH_v9_SF_Practice_NoSaveStates.sfc";
+         return "DASH_v10_SF_Practice_NoSaveStates.sfc";
          }
 
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)

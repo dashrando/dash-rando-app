@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Microsoft.FSharp.Core;
 using Microsoft.FSharp.Collections;
 using ItemRandomizer;
 
@@ -28,18 +29,22 @@ namespace DashRandomizer
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_v9_SM_{0}.sfc", Seed);
+         return string.Format ("DASH_v10_SM_{0:D5}.sfc", Seed);
          }
 
       public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
          {
          var rnd = new Random (Seed);
 
+         var NumSupers = 11 + rnd.Next (7);
+         var NumPBs = 13 + rnd.Next (7);
+         var NumMissiles = 63 - NumSupers - NumPBs;
+
          var ItemPool = Items.addReserves (3, Items.Items);
          ItemPool = Items.addETanks (13, ItemPool);
-         ItemPool = Items.addMissiles (33, ItemPool);
-         ItemPool = Items.addSupers (13, ItemPool);
-         ItemPool = Items.addPowerBombs (17, ItemPool);
+         ItemPool = Items.addMissiles (NumMissiles, ItemPool);
+         ItemPool = Items.addSupers (NumSupers, ItemPool);
+         ItemPool = Items.addPowerBombs (NumPBs, ItemPool);
 
          var NewItems = ListModule.Empty<Types.Item> ();
          var ItemLocations = ListModule.Empty<Types.ItemLocation> ();
@@ -49,7 +54,7 @@ namespace DashRandomizer
             ref ItemPool, TournamentLocations.AllLocations);
 
          // Place either a super or a missile to open up BT's location
-         var BT_Access = rnd.Next (2) == 0 ? Types.ItemType.Missile : Types.ItemType.Super;
+         var BT_Access = rnd.Next (100) < 65 ? Types.ItemType.Missile : Types.ItemType.Super;
          NewRandomizer.prefill (rnd, BT_Access, ref NewItems, ref ItemLocations,
             ref ItemPool, TournamentLocations.AllLocations);
 
@@ -100,9 +105,9 @@ namespace DashRandomizer
       public override string GetPracticeName (bool SaveStates)
          {
          if (SaveStates)
-            return "DASH_v9_SM_Practice_SaveStates.sfc";
+            return "DASH_v10_SM_Practice_SaveStates.sfc";
 
-         return "DASH_v9_SM_Practice_NoSaveStates.sfc";
+         return "DASH_v10_SM_Practice_NoSaveStates.sfc";
          }
 
       public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)

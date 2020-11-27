@@ -14,7 +14,7 @@ namespace DashRandomizer
 
       protected virtual string DashPatchName
          {
-         get { return "dash_v9.ips"; }
+         get { return "dash_v10.ips"; }
          }
 
       public abstract string Mode { get; }
@@ -136,7 +136,7 @@ namespace DashRandomizer
       public void SetupSeed (ref int Seed, byte[] RomData, int Index = 0x2FFF00)
          {
          if (Seed == 0)
-            Seed = new Random ().Next (1000000, 9999999);
+            Seed = new Random ().Next (1, 100000);
 
          if (RomData == null)
             return;

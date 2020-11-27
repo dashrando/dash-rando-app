@@ -23,8 +23,8 @@ namespace DASH
          generateSpoiler = GenerateSpoiler;
 
          // Populate our Game Mode and Randomization options
-         comboBoxRandomization.Items.Add (new GameModeSGL20 ());
          comboBoxRandomization.Items.Add (new GameModeMajorMinor ());
+         //comboBoxRandomization.Items.Add (new GameModeSGL20 ());
          //comboBoxRandomization.Items.Add (new GameModeFull ());
          //comboBoxRandomization.Items.Add (new GameModeVanilla ());
          comboBoxRandomization.SelectedIndex = 0;

@@ -155,12 +155,12 @@
          this.numericUpDownSeed.Font = new System.Drawing.Font("Calibri", 12F);
          this.numericUpDownSeed.Location = new System.Drawing.Point(287, 90);
          this.numericUpDownSeed.Maximum = new decimal(new int[] {
-            9999999,
+            99999,
             0,
             0,
             0});
          this.numericUpDownSeed.Minimum = new decimal(new int[] {
-            1000000,
+            1,
             0,
             0,
             0});
@@ -169,7 +169,7 @@
          this.numericUpDownSeed.TabIndex = 2;
          this.numericUpDownSeed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
          this.numericUpDownSeed.Value = new decimal(new int[] {
-            1000000,
+            1,
             0,
             0,
             0});
@@ -272,7 +272,7 @@
          this.Name = "MainForm";
          this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-         this.Text = "DASH Super Metroid Randomizer! [SG Live 2020 Tournament Edition]";
+         this.Text = "DASH Super Metroid Randomizer! [v10]";
          this.Load += new System.EventHandler(this.MainForm_Load);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
