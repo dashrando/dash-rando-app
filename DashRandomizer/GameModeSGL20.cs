@@ -43,7 +43,7 @@ namespace DashRandomizer
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_SGL20_{0}.sfc", Seed);
+         return string.Format ("DASH_SGL20_{0:D5}.sfc", Seed);
          }
 
       public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
