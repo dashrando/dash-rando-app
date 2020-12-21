@@ -12,45 +12,42 @@ namespace DashRandomizer
     {
       protected Types.Difficulty difficulty;
 
-      protected virtual string DashPatchName
+      protected virtual string PatchName
          {
-         get { return "dash_v10.ips"; }
+         get { return "dash_mm.bps"; }
+         }
+
+      protected virtual string PracticePatchSaveStates
+         {
+         get { return "dash_v10_hack_savestates.bps"; }
+         }
+
+      protected virtual string PracticePatchNoSaveStates
+         {
+         get { return "dash_v10_hack_no_savestates.bps"; }
          }
 
       public abstract string Mode { get; }
       public abstract string Randomization { get; }
 
-      internal void ApplyPatches (byte[] RomData)
+      internal void ApplyPatch (ref byte[] Rom, string PatchPath)
          {
-         if (RomData == null)
-            return;
-
          var CurrentDirectory = Directory.GetCurrentDirectory ();
          string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-         Directory.SetCurrentDirectory (assemblyPath);
+         Directory.SetCurrentDirectory (Path.Combine (assemblyPath, "patches"));
 
-         var IpsPatchesToApply = Patches.IpsPatches.Where (p =>
-             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-             p.Default).Concat (new[] { GetDashPatch () });
-         var RomPatchesToApply = Patches.RomPatches.Where (p =>
-             (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default);
-
-         _ = Patches.ApplyPatches (ListModule.OfSeq (IpsPatchesToApply),
-            ListModule.OfSeq (RomPatchesToApply), RomData);
+         var ThePatch = BpsPatch.Load (PatchPath);
+         ThePatch.Apply (ref Rom);
 
          Directory.SetCurrentDirectory (CurrentDirectory);
          }
 
-      internal Types.IpsPatch GetDashPatch ()
+      internal void ApplyPatches (ref byte[] RomData)
          {
-         return new Types.IpsPatch ("DASH", DashPatchName, Types.Difficulty.Any,
-            Types.PatchType.Standard, true);
-         }
+         if (RomData == null)
+            return;
 
-      Types.IpsPatch GetPatch (string FileName)
-         {
-         return new Types.IpsPatch (FileName, FileName, Types.Difficulty.Any,
-            Types.PatchType.Standard, true);
+         ApplyPatch (ref RomData, PatchName);
          }
 
       public abstract string GetFileName (int Seed);
@@ -110,26 +107,17 @@ namespace DashRandomizer
 
          string OutputFileName = Path.Combine (Path.GetDirectoryName (VanillaRom),
             GetPracticeName (!Emulator));
-         File.Copy (VanillaRom, OutputFileName, true);
 
          // *************************
 
-         Patch.Apply ("common_rando_patches.ips", OutputFileName);
-         Patch.Apply ("max_ammo_display.ips", OutputFileName);
-         Patch.Apply ("dachora.ips", OutputFileName);
-         Patch.Apply ("early_super_bridge.ips", OutputFileName);
-         Patch.Apply ("high_jump.ips", OutputFileName);
-         Patch.Apply ("moat.ips", OutputFileName);
-         Patch.Apply ("nova_boost_platform.ips", OutputFileName);
-         Patch.Apply ("red_tower.ips", OutputFileName);
-         Patch.Apply ("spazer.ips", OutputFileName);
-         Patch.Apply (DashPatchName, OutputFileName);
+         var RomBytes = File.ReadAllBytes (VanillaRom);
 
          if (Emulator)
-            Patch.Apply ("smhack21_b2_no_savestates.bps", OutputFileName);
+            ApplyPatch (ref RomBytes, PracticePatchNoSaveStates);
          else
-            Patch.Apply ("smhack21_b2_savestates.bps", OutputFileName);
+            ApplyPatch (ref RomBytes, PracticePatchSaveStates);
 
+         File.WriteAllBytes (OutputFileName, RomBytes);
          return OutputFileName;
          }
 
@@ -165,7 +153,7 @@ namespace DashRandomizer
          WriteSpoilerLog (Seed, ItemLocations);
          }
 
-      public abstract int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify);
+      public abstract int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler);
 
       internal void WriteProgressionLog (int Seed, IEnumerable<Types.ItemLocation> ItemLocations)
          {

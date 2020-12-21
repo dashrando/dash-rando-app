@@ -16,7 +16,7 @@ namespace DASH
          GameMode ConsoleGameMode = null;
          string VanillaRomPath = String.Empty;
          int SpecifiedSeed = 0;
-         bool TestMode = false, Verify = false;
+         bool TestMode = false;
          Action<string> Log = p => MessageBox.Show (p);
 
          for (int i = 0; i < args.Length; i++)
@@ -24,12 +24,6 @@ namespace DASH
             if (args[i] == "-q")
                {
                Log = p => {};
-               continue;
-               }
-
-            if (args[i] == "-v")
-               {
-               Verify = true;
                continue;
                }
 
@@ -99,14 +93,9 @@ namespace DASH
                var RomBytes = File.ReadAllBytes (VanillaRomPath);
 
                // Update the ROM based on the game mode
-               int Seed = ConsoleGameMode.UpdateRom (SpecifiedSeed, RomBytes, false, Verify);
+               int Seed = ConsoleGameMode.UpdateRom (SpecifiedSeed, ref RomBytes, false);
 
-               if (Verify && Seed == -2)
-                  {
-                  Log ("Verification failed.");
-                  Environment.ExitCode = 2;
-                  }
-               else if (Seed < 0)
+               if (Seed < 0)
                   {
                   Log ("Failed to generate seed.");
                   Environment.ExitCode = 3;
@@ -114,11 +103,7 @@ namespace DASH
                else
                   {
                   File.WriteAllBytes (ConsoleGameMode.GetFileName (Seed), RomBytes);
-
-                  if (Verify)
-                     Log (String.Format ("Verified seed {0} generated.", Seed));
-                  else
-                     Log (String.Format ("Seed {0} generated.", Seed));
+                  Log (String.Format ("Seed {0} generated.", Seed));
                   }
 
                return;

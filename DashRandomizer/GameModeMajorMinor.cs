@@ -110,11 +110,11 @@ namespace DashRandomizer
          return "DASH_v10_SM_Practice_NoSaveStates.sfc";
          }
 
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
+      public override int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler)
          {
-         SetupSeed (ref Seed, RomData);
+         ApplyPatches (ref RomData);
 
-         ApplyPatches (RomData);
+         SetupSeed (ref Seed, RomData);
 
          var ItemLocationList = GetItemLocations (Seed);
 

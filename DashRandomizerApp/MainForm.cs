@@ -24,7 +24,7 @@ namespace DASH
 
          // Populate our Game Mode and Randomization options
          comboBoxRandomization.Items.Add (new GameModeMajorMinor ());
-         //comboBoxRandomization.Items.Add (new GameModeSGL20 ());
+         comboBoxRandomization.Items.Add (new GameModeSGL20 ());
          //comboBoxRandomization.Items.Add (new GameModeFull ());
          //comboBoxRandomization.Items.Add (new GameModeVanilla ());
          comboBoxRandomization.SelectedIndex = 0;
@@ -63,7 +63,7 @@ namespace DASH
          var RomData = File.ReadAllBytes (romPath);
 
          // Update the ROM based on the game mode
-         int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, RomData, generateSpoiler, false);
+         int TheSeed = RandoGameMode.UpdateRom (SpecifiedSeed, ref RomData, generateSpoiler);
 
          // No seed generated?
          if (TheSeed < 0)

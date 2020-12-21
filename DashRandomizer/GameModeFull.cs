@@ -56,42 +56,19 @@ namespace DashRandomizer
          return "DASH_v10_SF_Practice_NoSaveStates.sfc";
          }
 
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
+      public override int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler)
          {
-         byte[] CloneData = null;
-
-         if (Verify && RomData != null)
-            CloneData = RomData.ToArray ();
+         ApplyPatches (ref RomData);
 
          SetupSeed (ref Seed, RomData);
-
-         //********* Legacy Randomizer Code ***************
-
-         if (Verify)
-            {
-            var CurrentDirectory = Directory.GetCurrentDirectory ();
-            string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-            Directory.SetCurrentDirectory (assemblyPath);
-
-            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-                p.Default).Concat (new[] { GetDashPatch () }));
-            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,
-               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
-
-            Directory.SetCurrentDirectory (CurrentDirectory);
-            }
-
-         //********* Updated Randomizer Code ***************
-
-         ApplyPatches (RomData);
 
          var ItemLocationList = GetItemLocations (Seed);
 
          if (GenerateSpoiler)
+            {
+            WriteProgressionLog (Seed, ItemLocationList);
             WriteSpoilerLog (Seed, ItemLocationList);
+            }
 
          if (RomData != null)
             {
@@ -100,11 +77,6 @@ namespace DashRandomizer
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
             _ = Randomizer.writeLocations (RomData, ListModule.OfSeq (ItemLocationList));
-
-            //********* Compare Results ***************
-
-            if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               return -2;
             }
 
          return Seed;

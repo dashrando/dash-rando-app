@@ -11,9 +11,19 @@ namespace DashRandomizer
    {
    public class GameModeSGL20 : GameMode
       {
-      protected override string DashPatchName
+      protected override string PatchName
          {
-         get { return "dash_SGL2020.ips"; }
+         get { return "dash_sgl20.bps"; }
+         }
+
+      protected override string PracticePatchNoSaveStates
+         {
+         get { return "dash_SGL20_hack_no_savestates.bps"; }
+         }
+
+      protected override string PracticePatchSaveStates
+         {
+         get { return "dash_SGL20_hack_savestates.bps"; }
          }
 
       public override string Mode
@@ -112,11 +122,11 @@ namespace DashRandomizer
          return "DASH_SGL20_Practice_NoSaveStates.sfc";
          }
 
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
+      public override int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler)
          {
-         SetupSeed (ref Seed, RomData);
+         ApplyPatches (ref RomData);
 
-         ApplyPatches (RomData);
+         SetupSeed (ref Seed, RomData);
 
          var ItemLocationList = GetItemLocations (Seed);
 

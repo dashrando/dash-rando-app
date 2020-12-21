@@ -1,43 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace DashRandomizer
    {
-   internal class Patch
+   public abstract class Patch
       {
-      internal static bool Apply (string PatchFileName, string RomFilePath)
+      public abstract bool Apply (ref byte[] FileBuffer);
+
+      public byte[] Apply (string FileName)
          {
-         string FlipsPath = "patches\\flips.exe";
+         // Specified file does not exist?
+         if (!File.Exists (FileName))
+            return null;
 
-         if (!File.Exists (FlipsPath))
-            {
-            FlipsPath = "flips.exe";
+         // Apply the patch to the specified file.
+         var FileBytes = File.ReadAllBytes (FileName);
+         if (Apply (ref FileBytes))
+            return FileBytes;
 
-            if (!File.Exists (FlipsPath))
-               return false;
+         return null;
+         }
 
-            return false;
-            }
+      protected void ResizeBuffer (ref byte[] Buffer, long MinSize)
+         {
+         if (Buffer.LongLength >= MinSize)
+            return;
 
-         string PatchPath = PatchFileName;
+         var Temp = Buffer;
+         Buffer = new byte[MinSize];
+         Temp.CopyTo (Buffer, 0);
+         }
 
-         if (!File.Exists (PatchPath))
-            {
-            PatchPath = "patches\\" + PatchFileName;
+      public string Test (string CleanFile, string PatchedFile)
+         {
+         var PatchedBytes = Apply (CleanFile);
 
-            if (!File.Exists (PatchPath))
-               return false;
-            }
+         if (PatchedBytes == null)
+            return "Failed to apply patch";
 
-         var Patcher = Process.Start (FlipsPath, String.Format ("--ignore-checksum --apply \"{0}\" \"{1}\"",
-            PatchPath, RomFilePath));
-         Patcher.WaitForExit ();
+         if (!File.Exists (CleanFile))
+            return "Clean file does not exist";
 
-         return true;
+         if (!Enumerable.SequenceEqual (PatchedBytes, File.ReadAllBytes (PatchedFile)))
+            return "Patch applied but does not match";
+
+         // Patch applied and matches :)
+         return null;
          }
       }
    }
