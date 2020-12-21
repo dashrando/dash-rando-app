@@ -145,8 +145,6 @@
 
 if not exist $(ProjectDir)$(OutDir)patches (mkdir $(ProjectDir)$(OutDir)patches)
 
-xcopy /YQ $(ProjectDir)..\ItemRandomizer\patches $(ProjectDir)$(OutDir)patches
-
 xcopy /YQ $(ProjectDir)..\DashRandomizer\patches $(ProjectDir)$(OutDir)patches</PostBuildEvent>
   </PropertyGroup>
 </Project>

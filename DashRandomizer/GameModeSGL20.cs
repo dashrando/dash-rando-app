@@ -11,9 +11,19 @@ namespace DashRandomizer
    {
    public class GameModeSGL20 : GameMode
       {
-      protected override string DashPatchName
+      protected override string PatchName
          {
-         get { return "dash_SGL2020.ips"; }
+         get { return "dash_sgl20.bps"; }
+         }
+
+      protected override string PracticePatchNoSaveStates
+         {
+         get { return "dash_SGL20_hack_no_savestates.bps"; }
+         }
+
+      protected override string PracticePatchSaveStates
+         {
+         get { return "dash_SGL20_hack_savestates.bps"; }
          }
 
       public override string Mode
@@ -33,22 +43,12 @@ namespace DashRandomizer
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_SGL20_{0}.sfc", Seed);
+         return string.Format ("DASH_SGL20_{0:D5}.sfc", Seed);
          }
 
-      public override string GetPracticeName (bool SaveStates)
+      public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
          {
-         if (SaveStates)
-            return "DASH_SGL20_Practice_SaveStates.sfc";
-
-         return "DASH_SGL20_Practice_NoSaveStates.sfc";
-         }
-
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
-         {
-         var rnd = SetupSeed (ref Seed, RomData);
-
-         ApplyPatches (RomData);
+         var rnd = new Random (Seed);
 
          var ItemPool = Items.addReserves (3, Items.Items);
          ItemPool = Items.addETanks (13, ItemPool);
@@ -110,8 +110,25 @@ namespace DashRandomizer
                ref ItemPool, ListModule.OfSeq (ModifiedLocations));
             }
 
-         var ItemLocationList = NewRandomizer.generateItemsWithoutPrefill (rnd, NewItems,
+         return NewRandomizer.generateItemsWithoutPrefill (rnd, NewItems,
             ItemLocations, ItemPool, TournamentLocations.AllLocations);
+         }
+
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_SGL20_Practice_SaveStates.sfc";
+
+         return "DASH_SGL20_Practice_NoSaveStates.sfc";
+         }
+
+      public override int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler)
+         {
+         ApplyPatches (ref RomData);
+
+         SetupSeed (ref Seed, RomData);
+
+         var ItemLocationList = GetItemLocations (Seed);
 
          if (GenerateSpoiler)
             {
@@ -125,7 +142,7 @@ namespace DashRandomizer
                p.Item.Type != Types.ItemType.ETank && p.Item.Type != Types.ItemType.Reserve).OrderBy (p => p.Item.Type);
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
-            _ = Randomizer.writeLocations (RomData, ItemLocationList);
+            _ = Randomizer.writeLocations (RomData, ListModule.OfSeq (ItemLocationList));
             }
 
          return Seed;

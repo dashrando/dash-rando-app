@@ -28,48 +28,12 @@ namespace DashRandomizer
 
       public override string GetFileName (int Seed)
          {
-         return string.Format ("DASH_v9_SF_{0}.sfc", Seed);
+         return string.Format ("DASH_v10_SF_{0:D5}.sfc", Seed);
          }
 
-      public override string GetPracticeName (bool SaveStates)
+      public override IEnumerable<Types.ItemLocation> GetItemLocations (int Seed)
          {
-         if (SaveStates)
-            return "DASH_v9_SF_Practice_SaveStates.sfc";
-
-         return "DASH_v9_SF_Practice_NoSaveStates.sfc";
-         }
-
-      public override int UpdateRom (int Seed, byte[] RomData, bool GenerateSpoiler, bool Verify)
-         {
-         byte[] CloneData = null;
-
-         if (Verify && RomData != null)
-            CloneData = RomData.ToArray ();
-
-         var rnd = SetupSeed (ref Seed, RomData);
-
-         //********* Legacy Randomizer Code ***************
-
-         if (Verify)
-            {
-            var CurrentDirectory = Directory.GetCurrentDirectory ();
-            string assemblyPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-            Directory.SetCurrentDirectory (assemblyPath);
-
-            var IpsPatchesToApply = ListModule.OfSeq (Patches.IpsPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) &&
-                p.Default).Concat (new[] { GetDashPatch () }));
-            var RomPatchesToApply = ListModule.OfSeq (Patches.RomPatches.Where (p =>
-                (p.Difficulty == this.difficulty || p.Difficulty == Types.Difficulty.Any) && p.Default));
-            var Results = Randomizer.Randomize (Seed, Types.Difficulty.Full, false,
-               "", CloneData, IpsPatchesToApply, RomPatchesToApply);
-
-            Directory.SetCurrentDirectory (CurrentDirectory);
-            }
-
-         //********* Updated Randomizer Code ***************
-
-         ApplyPatches (RomData);
+         var rnd = new Random (Seed);
 
          var TheItems = Items.addReserves (3, Items.Items);
          TheItems = Items.addETanks (13, TheItems);
@@ -77,11 +41,34 @@ namespace DashRandomizer
          TheItems = Items.addSupers (13, TheItems);
          TheItems = Items.addPowerBombs (17, TheItems);
 
-         var ItemLocationList = FullRandomizer.generateItems (rnd, ListModule.Empty<Types.Item> (),
+         var NewItems = ListModule.Empty<Types.Item> ();
+         var ItemLocations = ListModule.Empty<Types.ItemLocation> ();
+
+         return FullRandomizer.generateItems (rnd, ListModule.Empty<Types.Item> (),
             ListModule.Empty<Types.ItemLocation> (), TheItems, TournamentLocations.AllLocations);
+         }
+
+      public override string GetPracticeName (bool SaveStates)
+         {
+         if (SaveStates)
+            return "DASH_v10_SF_Practice_SaveStates.sfc";
+
+         return "DASH_v10_SF_Practice_NoSaveStates.sfc";
+         }
+
+      public override int UpdateRom (int Seed, ref byte[] RomData, bool GenerateSpoiler)
+         {
+         ApplyPatches (ref RomData);
+
+         SetupSeed (ref Seed, RomData);
+
+         var ItemLocationList = GetItemLocations (Seed);
 
          if (GenerateSpoiler)
+            {
+            WriteProgressionLog (Seed, ItemLocationList);
             WriteSpoilerLog (Seed, ItemLocationList);
+            }
 
          if (RomData != null)
             {
@@ -89,12 +76,7 @@ namespace DashRandomizer
                p.Item.Type != Types.ItemType.ETank && p.Item.Type != Types.ItemType.Reserve).OrderBy (p => p.Item.Type);
 
             _ = Randomizer.writeRomSpoiler (RomData, ListModule.OfSeq (sortedItems), 0x2f5240);
-            _ = Randomizer.writeLocations (RomData, ItemLocationList);
-
-            //********* Compare Results ***************
-
-            if (CloneData != null && !CloneData.SequenceEqual (RomData))
-               return -2;
+            _ = Randomizer.writeLocations (RomData, ListModule.OfSeq (ItemLocationList));
             }
 
          return Seed;

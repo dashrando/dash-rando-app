@@ -24,7 +24,7 @@ namespace DASH
          textBoxDifficulty.Text = RandoGameMode.ToString ();
 
          labelDetails.Text =
-            "- Based on SM Practice Hack v2.1.2 (https://smpractice.speedga.me/)\n" +
+            "- Based on SM Practice Hack v2.1.3 (https://smpractice.speedga.me/)\n" +
             "- Includes Common Randomizer Patches\n" +
             "- Includes " + RandoGameMode.Mode + " DASH Patches";
 

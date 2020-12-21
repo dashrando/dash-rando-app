@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BpsPatch.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="GameModeFull.cs" />
     <Compile Include="GameModeMajorMinor.cs" />
